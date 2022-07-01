@@ -1,0 +1,28 @@
+server:
+  address: localhost
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: report
+    url: jdbc:mysql://127.0.0.1:43307/report?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false
+    username: report
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+logging:
+  level:
+    '[com.react]': debug
+jwt:
+  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwt7YWM7Iqk7Yq4XzIwMjIwNjI5
