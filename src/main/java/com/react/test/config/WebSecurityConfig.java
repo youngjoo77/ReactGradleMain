@@ -35,7 +35,7 @@ public class WebSecurityConfig implements WebMvcConfigurer{
     
     /*
 	 * 개발환경에서의 크로스 도메인 이슈 해결을 위한 코드. 운영 배포 시 addCorsMappings 내용 주석처리
-	 */
+	 */ 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/api/**").allowCredentials(true).allowedOrigins("http://localhost:3000");
