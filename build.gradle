@@ -62,15 +62,6 @@ task copyWebApp(type: Copy) {
 	into 'build/resources/main/static/'
 }
 
-task runReactServer(type: NpmTask) {
-    workingDir = file("$webappDir");
-    args = ["run", "start"]
-}
-
-bootRun.doFirst {
-    runReactServer
-}
-
 npmBuild.dependsOn appNpmInstall
 copyWebApp.dependsOn npmBuild
 compileJava.dependsOn copyWebApp
