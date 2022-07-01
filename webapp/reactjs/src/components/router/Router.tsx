@@ -40,8 +40,8 @@ const Router = () => {
 			<Suspense fallback={<div>Loading...</div>}>
 				<Routes>
 						{/* 인증 여부 상관 없이 접속 가능한 페이지 정의 "/" 로 접근시 login 으로 이동 */}
-						<Route index element={<Navigate replace to="/Login"/>} />
-						<Route path="/Login" element={<Login />} />
+						<Route index element={<Navigate replace to="/login"/>} />
+						<Route path="/login" element={<Login />} />
 						
 						{/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
 						<Route element={<PrivateRoute authentication={true} />}>
