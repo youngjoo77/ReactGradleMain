@@ -32,15 +32,6 @@ public class WebSecurityConfig implements WebMvcConfigurer{
     	// request로부터 받은 비밀번호를 암호화
         return new BCryptPasswordEncoder();
     }
-    
-    /*
-	 * 개발환경에서의 크로스 도메인 이슈 해결을 위한 코드. 운영 배포 시 addCorsMappings 내용 주석처리
-	 */
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/api/**").allowCredentials(true).allowedOrigins("http://localhost:3000");
-		WebMvcConfigurer.super.addCorsMappings(registry);
-	}
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,7 +43,7 @@ public class WebSecurityConfig implements WebMvcConfigurer{
         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
         .accessDeniedHandler(jwtAccessDeniedHandler)
         
-        .and().authorizeRequests() 
+        .and().authorizeRequests()
         .antMatchers("/api/auth/**").permitAll() // 토큰 검증 권한설정
         .anyRequest().authenticated()
         
