@@ -1,3 +1,8 @@
+.gradle/
+.settigs/
+bin/
 build/
 webapp/reactjs/build/
-bin/
+webapp/reactjs/node_modules/
+.classpath
+.project
