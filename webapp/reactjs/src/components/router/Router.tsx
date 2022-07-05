@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import PrivateRoute from './PrivateRouter';
-import Layouts from '../layout/layouts';
+import PrivateRoute from '@/components/router/PrivateRouter';
+import Layouts from '@/components/layout/layouts';
 
 // 화면 목록을 조회하여 Page 에 적재 한다.
 interface Page {
@@ -16,19 +16,19 @@ interface lazyData {
 }
 
 // axios 로 통신해서 해당 데이터를 만들어 낸 후 결과에서 pages 를 만들면 됨
-const testMap = [{path :'../../pages/Main', pathName : '/main'},
-						{path :'../../pages/test/TestPage1', pathName : '/testPage1'},
-						{path :'../../pages/test/TestPage2', pathName : '/testPage2'}];
+const testMap = [{path :'@pages/Main', pathName : '/main'},
+						{path :'@pages/test/TestPage1', pathName : '/testPage1'},
+						{path :'@pages/test/TestPage2', pathName : '/testPage2'}];
 
 // lazy 동적 생성
 const pages : lazyData[] = [
-	{element : lazy(() => import('../../pages/Main')), path : '/main'},
-	{element : lazy(() => import('../../pages/test/TestPage1')), path : '/testPage1'},
-	{element : lazy(() => import('../../pages/test/TestPage2')), path : '/testPage2'}
+	{element : lazy(() => import('@pages/Main')), path : '/main'},
+	{element : lazy(() => import('@pages/test/TestPage1')), path : '/testPage1'},
+	{element : lazy(() => import('@pages/test/TestPage2')), path : '/testPage2'}
 ];
 
 const Router = () => {
-	const Login = lazy(() => import('../../pages/Login')); // 로그인 페이지는 정적으로 설정 한다.
+	const Login = lazy(() => import('@pages/Login')); // 로그인 페이지는 정적으로 설정 한다.
 	/* 인증을 반드시 하지 않아야만 접속 가능한 페이지 정의 */
 	//        <Route element={<PrivateRoute authentication={false}/>}>
 	//          <Route path="/login" element={<LoginPage/>} />

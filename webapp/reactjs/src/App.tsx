@@ -1,5 +1,5 @@
-import Router from './components/router/Router';
-import './App.css';
+import Router from '@components/router/Router';
+import '@/App.css';
 
 const App = () => {
 	

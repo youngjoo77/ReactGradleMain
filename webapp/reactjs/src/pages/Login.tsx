@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import useAxios from '../components/axios/useAxios';
 import {Button, Container} from "react-bootstrap"; 
+import useAxios from '@/components/axios/useAxios';
 
 interface LoginToken {
 	grantType: string,
