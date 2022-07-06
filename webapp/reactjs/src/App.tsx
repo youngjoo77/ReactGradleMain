@@ -1,11 +1,13 @@
-import Router from '@components/router/Router';
+import Router from '@components/router/router';
+import {useSelector} from "react-redux";
+import {RootState} from "@modules/rootReducer";
 import '@/App.css';
 
 const App = () => {
+	const accessToken = useSelector((state : RootState) => state.auth.accessToken);
+//	console.log("App accessToken : "+accessToken);
 	
-	const token = localStorage.getItem('token');
-	console.log("token : " + token);
-	if (typeof token === 'string' && token.trim() !== '' && token.trim().length > 0) {
+	if (typeof accessToken === 'string' && accessToken.trim() !== '' && accessToken.trim().length > 0) {
 		localStorage.setItem('isAuthenticated', 'true');
 	}
 	else {

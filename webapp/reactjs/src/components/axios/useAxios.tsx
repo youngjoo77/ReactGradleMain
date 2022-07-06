@@ -21,8 +21,11 @@ const fetchAuth = async (fetchData: FetchData) => {
 	const method = fetchData.method;
 	const url = baseUrl + fetchData.url;
 	const data = fetchData.data;
-	const isloading = fetchData.loading;
-	const token = (localStorage.getItem('token') != null || localStorage.getItem('token') != "") ? ' Bearer ' + localStorage.getItem('token') : '';
+	//	const isloading = fetchData.loading;
+	const accessToken = localStorage.getItem('token');
+	
+	const token = (accessToken != null || accessToken != "") ? ' Bearer ' + accessToken : '';
+	
 	const header = {
 		headers: {
 			'Content-Type': 'application/json',
