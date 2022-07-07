@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import {Button, Container} from "react-bootstrap"; 
 import {useDispatch} from "react-redux";
-import useAxios from '@/components/axios/useAxios';
-import {setCookie, removeCookie} from "@components/cookie/cookie";
+import useAxios from '@configs/axios/useAxios';
+import {setCookie, removeCookie} from "@configs/cookie/cookie";
 import {LoginToken, LoginInData} from '@interfaces/loginInterface';
 import {addAccesstoken, removeAccesstoken, addExpiresAccesstoken, removeExpiresAccesstoken} from "@modules/auth/authModule"
+import {addMenuList} from "@modules/menu/menuModule"
+import {MenuList} from "@modules/menu/menuType"
+import {BasicButton} from "@components/button/button"
+import {Container, Stack} from "@mui/material"
 
 const Login =() => {
 	const dispatch = useDispatch();
@@ -16,6 +19,10 @@ const Login =() => {
 //	const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 //	const [hasLoginFailed, setHasLoginFailed] = useState(false);
 	
+	const createMenuList = React.useCallback(
+		(menuList : MenuList) => dispatch(addMenuList(menuList)),
+		[dispatch]
+    );
     
 	// auth 관련 생성 함수
 	const createAccesstoken = React.useCallback(
@@ -57,7 +64,18 @@ const Login =() => {
 //  		const remainingDuration = adjExpirationTime - currentTime;
 //  		return remainingDuration;
 //	};
-
+	
+	const setMenuList = () => {
+		// 메뉴 데이터 생성
+		const menuDateList = {menuItems : [{key : "1", title : "메뉴1", show : false},
+																   {key : "2", title : "메뉴2", show : true},
+																   {key : "3", title : "메뉴3", show : false}]};
+		
+		createMenuList(menuDateList);
+	}
+		
+	
+	
 	const loginClicked = () => {
 		console.log("loginClicked");
 		const loginData : LoginInData = { 'email': email, 'password': password };
@@ -83,6 +101,8 @@ const Login =() => {
 				createAccesstoken(result.accessToken);
 				createExpiresAccesstoken(String(result.tokenExpiresIn));
 				
+				
+				setMenuList(); // 메뉴생성
 				// main 페이지로 이동
 				navigatehandler();
 			}
@@ -103,8 +123,7 @@ const Login =() => {
 	}
 
 	return (
-		<div>
-			<Container className="panel">
+		<Container>
 				<h1>Login</h1>
 				<section>
 					<div>User Name</div>
@@ -116,11 +135,16 @@ const Login =() => {
 					<div>Password</div>
 					<div><input type="password" name="password" value={password} onChange={passwordChange} /></div>
 				</section>
-				<section>
-					<Button className="btn btn-success" onClick={loginClicked}>Login</Button>
-				</section>
-			</Container>
-		</div>
+				<Stack spacing={1} direction="row">
+					<BasicButton
+						variant='outlined'
+						style={{ background: "#1235FF", color: "#fff" }}
+				        onClick={loginClicked}
+				    >
+				          Login
+        			</BasicButton>
+				</Stack>
+		</Container>
 	)
 }
 

@@ -19,7 +19,7 @@ const auth = createReducer<Auth, AuthAction>(initialState, {
 	}),
 	[ADD_EXPIRES_ACCESSTOKEN] : (state, action) =>
 	produce(state, draft => {
-		draft.accessToken = action.payload.tokenExpiresTime;
+		draft.tokenExpiresTime = action.payload.tokenExpiresTime;
 	}),
 	[REMOVE_EXPIRES_ACCESSTOKEN] : (state, action) =>
 	produce(state, draft => {

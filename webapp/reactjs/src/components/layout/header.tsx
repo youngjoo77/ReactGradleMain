@@ -4,6 +4,8 @@ import {Container, Button} from "react-bootstrap";
 const Header = () => {
 	const navigate = useNavigate();
 	
+	console.log("Header !!!!");
+	
 	const LogoutHandler = () => {
 		console.log("logout  버튼 클릭 !!!!");
 		

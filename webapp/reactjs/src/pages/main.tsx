@@ -1,18 +1,15 @@
-import { useNavigate } from 'react-router';
-import {Container, Button} from "react-bootstrap"; 
-
+import {Link} from "react-router-dom"
+import {BasicButton} from "@components/button/button"
 const Main = () => {
-	const navigate = useNavigate();
 	 
 	return (
 		
 		<div>
-			<Container className="panel">
-				<div>Main page</div>
-				<div><Button className="btn btn-success" onClick={(e) => navigate('/testPage1')}>go testPage1</Button></div>
-				<div><Button className="btn btn-success" onClick={(e) => navigate('/testPage2')}>go testPage2</Button></div>
-			</Container>
-			
+			<div>Main page</div>
+			{
+				// 버튼 샘플
+			}
+			<BasicButton component={Link} to="/testPage1">go testPage1</BasicButton>
 		</div>
 		
 	)

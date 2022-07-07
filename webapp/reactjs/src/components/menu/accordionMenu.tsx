@@ -1,11 +1,23 @@
-import {Container, Button, Accordion, Card} from "react-bootstrap";
+import {Accordion} from "@components/accordion/Accordion"
+import {AccordionListProps, AccordionProps} from '@interfaces/AccordionInterface'
+import {useSelector} from "react-redux";
+import {RootState} from "@modules/rootReducer";
 
-const AccordionMenu = () => {
+const MakeAccordionMenu = () => {
+	const menuItems = useSelector((state : RootState) => state.menu.menuItems);
+	
 	return (
-    	<div className="Accordion">
-			아코디언 메뉴 영역
-		</div>
-	);
+			<div>
+				{menuItems.map((menu : AccordionProps) => (
+		          <Accordion
+		          		key= {menu.key}
+		          		title = {menu.title}
+		          		show= {menu.show}
+		          		children ={menu.children}
+		          />
+		        ))}
+			</div>
+	)
 }
 
-export default AccordionMenu;
+export default MakeAccordionMenu;

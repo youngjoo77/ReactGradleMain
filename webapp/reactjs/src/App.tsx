@@ -1,4 +1,4 @@
-import Router from '@components/router/router';
+import Router from '@configs/router/router';
 import {useSelector} from "react-redux";
 import {RootState} from "@modules/rootReducer";
 import '@/App.css';

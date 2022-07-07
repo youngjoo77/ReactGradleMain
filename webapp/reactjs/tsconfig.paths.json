@@ -6,7 +6,8 @@
       "@components/*" : ["src/components/*"],
       "@pages/*" : ["src/pages/*"],
       "@interfaces/*" : ["src/interfaces/*"],
-      "@modules/*" : ["src/modules/*"]
+      "@modules/*" : ["src/modules/*"],
+      "@configs/*" : ["src/configs/*"]
     }
   }
 }

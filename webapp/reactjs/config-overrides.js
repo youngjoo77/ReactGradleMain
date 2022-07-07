@@ -8,5 +8,6 @@ module.exports = override(
     '@pages': path.resolve(__dirname, 'src/pages'),
     '@interfaces': path.resolve(__dirname, 'src/interfaces'),
     '@modules': path.resolve(__dirname, 'src/modules'),
+    '@configs': path.resolve(__dirname, 'src/configs'),
   }),
 );

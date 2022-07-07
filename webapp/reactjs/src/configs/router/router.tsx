@@ -1,13 +1,13 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy} from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import PrivateRoute from '@components/router/privateRouter';
+import PrivateRoute from '@configs/router/privateRouter';
 import Layouts from '@components/layout/layouts';
 
 // 화면 목록을 조회하여 Page 에 적재 한다.
-interface Page {
-	path : string,
-	pathName : string
-} 
+//interface Page {
+//	path : string,
+//	pathName : string
+//} 
 
 // Page 의 목록으로 layz 를 동적으로 생성 한다.
 interface lazyData {
