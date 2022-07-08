@@ -3,13 +3,13 @@ import * as menuModule  from "@modules/menu/menuModule";
 
 export type MenuAction = ActionType<typeof menuModule>;
 
-export interface Menu {
+export interface MenuType {
   key : string
   title: string
   show: boolean
 //  children: React.ReactElement
 };
 
-export interface MenuList {
-  menuItems: Menu[];
+export interface MenuListType {
+  menuItems: MenuType[];
 }

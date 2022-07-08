@@ -3,8 +3,8 @@ import * as authModule  from "@modules/auth/authModule";
 
 export type AuthAction = ActionType<typeof authModule>;
 
-export type Auth = {
-	accessToken : string,
-	tokenExpiresTime : string,
-	isAuthenticated : string,
+export interface AuthType {
+	accessToken : string
+	tokenExpiresTime : string
+	isAuthenticated : boolean
 };

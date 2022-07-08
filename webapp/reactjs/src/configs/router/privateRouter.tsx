@@ -22,13 +22,13 @@ const PrivateRoute = ({ authentication }: PrivateRouteProps): React.ReactElement
 		// 인증 필요
 		// 인증을 안했을 경우 로그인 페이지 이동
 		// 했을경우 해당 페이지로 이동
-		return (isAuthenticated === null || isAuthenticated === 'false') ? <Navigate to="/" /> : <Outlet />;
+		return (isAuthenticated === null || !isAuthenticated) ? <Navigate to="/" /> : <Outlet />;
 
 	} else {
 		// 인증 불필요
 		// 인증을 안했을 경우 해당 페이지로 이동
 		// 했을경우 로그인 페이지로 이동
-		return (isAuthenticated === null || isAuthenticated === 'false') ? <Outlet /> : <Navigate to='/' />;
+		return (isAuthenticated === null || !isAuthenticated) ? <Outlet /> : <Navigate to='/' />;
 	}
 }
 

@@ -1,17 +1,21 @@
 import {combineReducers} from 'redux';
-import auth from "@modules/auth/authReducer";
-import {Auth} from "@modules/auth/authType";
-import menu from "@modules/menu/menuReducer"
-import {MenuList} from "@modules/menu/menuType";
+import authReducer from "@modules/auth/authReducer";
+import {AuthType} from "@modules/auth/authType";
+import menuReducer from "@modules/menu/menuReducer"
+import {MenuListType} from "@modules/menu/menuType";
+import progressReducer from "@modules/progress/progressReducer"
+import {ProgressType} from "@modules/progress/progressType";
 
 export type RootState = {
-	auth : Auth,
-	menu : MenuList
+	auth : AuthType,
+	menu : MenuListType,
+	progress : ProgressType
 }
 
 const rootReducer = combineReducers({
-	auth,
-	menu
+	authReducer,
+	menuReducer,
+	progressReducer
 });
 
 export default rootReducer;

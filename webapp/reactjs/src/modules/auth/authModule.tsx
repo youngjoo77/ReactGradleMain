@@ -29,5 +29,5 @@ export const addExpiresAccesstoken = createStandardAction(ADD_EXPIRES_ACCESSTOKE
 export const removeExpiresAccesstoken = createStandardAction(REMOVE_EXPIRES_ACCESSTOKEN)();
 
 export const isAuthenticated = createStandardAction(IS_AUTHENTICATED)<{
-	 isAuthenticated : string
+	 isAuthenticated : boolean
 }>();

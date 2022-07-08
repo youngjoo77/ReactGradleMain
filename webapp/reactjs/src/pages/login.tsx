@@ -10,7 +10,7 @@ import {
 	removeExpiresAccesstoken, isAuthenticated
 } from "@modules/auth/authModule"
 import { addMenuList } from "@modules/menu/menuModule"
-import { MenuList } from "@modules/menu/menuType"
+import { MenuListType } from "@modules/menu/menuType"
 import { BasicButton } from "@components/button/button"
 
 import { Container, CssBaseline, Avatar, Typography, TextField, Box } from "@mui/material"
@@ -39,7 +39,7 @@ const Login = () => {
 	//	const [hasLoginFailed, setHasLoginFailed] = useState(false);
 
 	const createMenuList = React.useCallback(
-		(menuList: MenuList) => dispatch(addMenuList(menuList)),
+		(menuList: MenuListType) => dispatch(addMenuList(menuList)),
 		[dispatch]
 	);
 
@@ -63,7 +63,7 @@ const Login = () => {
 	);
 
 	const saveIsAuthenticated = React.useCallback(
-		(authenticated: string) => dispatch(isAuthenticated({ isAuthenticated: authenticated })),
+		(authenticated: boolean) => dispatch(isAuthenticated({ isAuthenticated: authenticated })),
 		[dispatch]
 	);
 
@@ -107,8 +107,8 @@ const Login = () => {
 		const response = useAxios.POST('/auth/login', loginData, true);
 		response.then((response) => {
 			if (response !== null) {
+				saveIsAuthenticated(true);
 				const result: LoginToken = response.data;
-
 				setEmail(email);
 				localStorage.setItem('token', result.accessToken);
 				console.log("login success!!!");
@@ -119,7 +119,7 @@ const Login = () => {
 				// redux 에 token 생성
 				createAccesstoken(result.accessToken);
 				createExpiresAccesstoken(String(result.tokenExpiresIn));
-				saveIsAuthenticated('true');
+				
 
 				setMenuList(); // 메뉴생성
 				// main 페이지로 이동
@@ -133,7 +133,7 @@ const Login = () => {
 			// redux 에 token 삭제
 			deleteAccesstoken();
 			deleteExpiresAccesstoken();
-			saveIsAuthenticated('false');
+			saveIsAuthenticated(false);
 			//			removeCookie('accessToken'); // cookie 샘플
 		})
 	}

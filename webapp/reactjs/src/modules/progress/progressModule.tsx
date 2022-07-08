@@ -1,5 +1,5 @@
 import {deprecated} from "typesafe-actions";
-import {MenuListType} from "@modules/menu/menuType"
+
 /**
  * createStandardAction
  * 첫번째 인자값 : Action Type
@@ -8,8 +8,8 @@ import {MenuListType} from "@modules/menu/menuType"
  */
 const {createStandardAction} = deprecated;
 
-export const ADD_MENU_LIST = 'menu/ADD_MENU_LIST';
-export const REMOVE_MENU_LIST = 'menu/REMOVE_MENU_LIST';
+export const TOGGLE_PROGRESS = 'progress/TOGGLE_PROGRESS';
 
-export const addMenuList = createStandardAction(ADD_MENU_LIST)<MenuListType>();
-export const removeMenuList = createStandardAction(REMOVE_MENU_LIST)();
+export const toggleProgress = createStandardAction(TOGGLE_PROGRESS)<{
+	 progressOpen : boolean
+}>();

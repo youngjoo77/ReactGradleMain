@@ -1,53 +1,87 @@
+import React from 'react';
 import { Outlet } from 'react-router'
-import { Link } from 'react-router-dom'
 import { useSelector } from "react-redux";
 import { RootState } from "@modules/rootReducer";
 
 import Header from '@components/layout/header'
 import Footer from '@components/layout/footer'
-import MakeAccordionMenu from '@components/menu/accordionMenu'
-import TreeMenu from '@components/menu/treeMenu'
-import {
-	Box, CssBaseline, AppBar, Toolbar, Typography,
-	Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider
-} from '@mui/material';
-import { Inbox, Mail } from "@mui/icons-material"
+import ListMenu from '@components/menu/listMenu'
+import {BasicButton} from "@components/button/button"
+
+import { Box, CssBaseline, Toolbar } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+
 
 interface LayoutDefaultProps {
 	children?: React.ReactElement;
 }
 
+interface AppBarProps extends MuiAppBarProps {
+	open?: boolean;
+}
+
+const drawerWidth = 240;
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'flex-end',
+	padding: theme.spacing(0, 1),
+	// necessary for content to be below app bar
+	...theme.mixins.toolbar,
+}));
+
+const AppBar = styled(MuiAppBar, {
+	shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+	zIndex: theme.zIndex.drawer + 1,
+	transition: theme.transitions.create(['width', 'margin'], {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+	}),
+	...(open && {
+		marginLeft: drawerWidth,
+		width: `calc(100% - ${drawerWidth}px)`,
+		transition: theme.transitions.create(['width', 'margin'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+	}),
+}));
 
 const Layouts = ({ children }: LayoutDefaultProps) => {
+	const [open, setOpen] = React.useState(false);
+	const theme = useTheme();
+
+	const handleDrawerOpen = () => {
+		setOpen(true);
+	};
+
+	const handleDrawerClose = () => {
+		setOpen(false);
+	};
+
 	const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-	const drawerWidth = 240;
 	console.log(accessToken);
 
 	return (
+
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
-			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-				<Toolbar>
-					<Typography variant="h6" noWrap component="div">
-						{/* 해당 layout에서 공통으로 사용되는 Header를 선언해준다. */}
-						<Header />
-					</Typography>
-				</Toolbar>
+			<AppBar position="fixed" open={open}>
+				<Header
+					open={open}
+					handleDrawerOpen={handleDrawerOpen}
+				/>
 			</AppBar>
-
-			<Drawer
-				variant="permanent"
-				sx={{
-					width: drawerWidth,
-					flexShrink: 0,
-					[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-				}}
-			>
-				<Toolbar />
-				<Box sx={{ overflow: 'auto' }}>
-					<TreeMenu />
-				</Box>
-			</Drawer>
+			<ListMenu
+				open={open}
+				theme={theme}
+				drawerWidth={drawerWidth}
+				DrawerHeader={DrawerHeader}
+				handleDrawerClose={handleDrawerClose}
+			/>
 
 			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 				<Toolbar />
@@ -57,10 +91,10 @@ const Layouts = ({ children }: LayoutDefaultProps) => {
 					{children || <Outlet />}
 				</main>
 			</Box>
-			
+
 			<Footer />
-			
 		</Box>
+
 	)
 }
 

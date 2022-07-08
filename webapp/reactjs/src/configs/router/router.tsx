@@ -1,8 +1,11 @@
-import { Suspense, lazy} from 'react';
+import React, { Suspense, lazy, useState} from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from '@configs/router/privateRouter';
 import Layouts from '@components/layout/layouts';
-import Header from "@components/layout/header"
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@modules/rootReducer";
 
 // 화면 목록을 조회하여 Page 에 적재 한다.
 //interface Page {
@@ -31,6 +34,8 @@ const Router = () => {
 	//          <Route path="/login" element={<LoginPage/>} />
 	//        </Route>
 //	<Route path="/main" element={<Layouts><Main /></Layouts>} />
+	const dispatch = useDispatch();
+
 	return (
 		
 		<BrowserRouter>
@@ -51,6 +56,12 @@ const Router = () => {
 						</Route>
 				</Routes>
 			</Suspense>
+			<Backdrop
+				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 10 }}
+				open={useSelector((state: RootState) => state.progress.progressOpen)}
+			>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 		</BrowserRouter>
 	)
 }
