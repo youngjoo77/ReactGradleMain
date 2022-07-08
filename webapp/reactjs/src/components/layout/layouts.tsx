@@ -53,9 +53,9 @@ const Layouts = ({ children }: LayoutDefaultProps) => {
 				<Toolbar />
 				{/* Content 영역 */}
 				<main>
-				{/* children이 있을경우는 children을 없을 경우에는 Outlet을 나타내준다 */}
-				{children || <Outlet />}
-			</main>
+					{/* children이 있을경우는 children을 없을 경우에는 Outlet을 나타내준다 */}
+					{children || <Outlet />}
+				</main>
 			</Box>
 			
 			<Footer />

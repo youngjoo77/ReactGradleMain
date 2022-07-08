@@ -1,5 +1,7 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from 'react-router-dom';
+import { RootState } from "@modules/rootReducer";
 
 interface PrivateRouteProps {
 	children?: ReactElement; // Router.tsx에서 PrivateRoute가 감싸고 있는 Componet Element
@@ -7,13 +9,14 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute = ({ authentication }: PrivateRouteProps): React.ReactElement | null => {
+	const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+	console.log(isAuthenticated);
 	
 	/**
 	  * 로그인 했는지 여부
 	  * 로그인 했을 경우 : true 라는 텍스트 반환
 	  * 로그인 안했을 경우 : null or false(로그아웃 버튼 눌렀을경우falseN로 설정) 반환
 	  */
-	const isAuthenticated = localStorage.getItem("isAuthenticated");
 
 	if (authentication) {
 		// 인증 필요

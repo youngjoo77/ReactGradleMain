@@ -1,21 +1,18 @@
 import Router from '@configs/router/router';
-import {useSelector} from "react-redux";
-import {RootState} from "@modules/rootReducer";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import '@/App.css';
 
-const App = () => {
-	const accessToken = useSelector((state : RootState) => state.auth.accessToken);
-//	console.log("App accessToken : "+accessToken);
-	
-	if (typeof accessToken === 'string' && accessToken.trim() !== '' && accessToken.trim().length > 0) {
-		localStorage.setItem('isAuthenticated', 'true');
-	}
-	else {
-		localStorage.setItem('isAuthenticated', 'false');
-	}
+const darkTheme = createTheme({
+	palette: {
+		mode: 'light',
+	},
+});
 
+const App = () => {
 	return (
-		<Router/>
+		<ThemeProvider theme={darkTheme}>
+			<Router />
+		</ThemeProvider>
 	);
 }
 

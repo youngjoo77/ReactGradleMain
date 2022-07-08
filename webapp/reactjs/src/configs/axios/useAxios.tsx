@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useSelector } from "react-redux";
+import { RootState } from "@modules/rootReducer";
 
 interface ServerError {
 	errorMessage: string
@@ -16,13 +18,18 @@ interface FetchData {
 	loading: boolean
 };
 
-const fetchAuth = async (fetchData: FetchData) => {
+const GetAccessToken =() => {
+	return useSelector((state: RootState) => state.auth.accessToken);
+}
+const FetchAuth = async (fetchData: FetchData) => {
 	const baseUrl = "/api";
 	const method = fetchData.method;
 	const url = baseUrl + fetchData.url;
 	const data = fetchData.data;
 	//	const isloading = fetchData.loading;
 	const accessToken = localStorage.getItem('token');
+	
+//	console.log("accessTokena : "+accessTokena);
 	
 	const token = (accessToken != null || accessToken != "") ? ' Bearer ' + accessToken : '';
 	
@@ -67,22 +74,22 @@ const fetchAuth = async (fetchData: FetchData) => {
 }
 
 const GET = (url: string, loading: boolean) => {
-	const response = fetchAuth({ method: 'get', url, loading });
+	const response = FetchAuth({ method: 'get', url, loading });
 	return response;
 };
 
 const POST = (url: string, data: {}, loading: boolean) => {
-	const response = fetchAuth({ method: 'post', url, data, loading })
+	const response = FetchAuth({ method: 'post', url, data, loading })
 	return response;
 };
 
 const PUT = async (url: string, data: {}, loading: boolean) => {
-	const response = fetchAuth({ method: 'put', url, data, loading });
+	const response = FetchAuth({ method: 'put', url, data, loading });
 	return response;
 };
 
 const DELETE = async (url: string, loading: boolean) => {
-	const response = fetchAuth({ method: 'delete', url, loading });
+	const response = FetchAuth({ method: 'delete', url, loading });
 	return response;
 };
 

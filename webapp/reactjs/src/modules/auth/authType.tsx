@@ -5,5 +5,6 @@ export type AuthAction = ActionType<typeof authModule>;
 
 export type Auth = {
 	accessToken : string,
-	tokenExpiresTime : string
+	tokenExpiresTime : string,
+	isAuthenticated : string,
 };

@@ -1,11 +1,13 @@
 import {AuthAction, Auth} from "@modules/auth/authType";
-import {ADD_ACCESSTOKEN, REMOVE_ACCESSTOKEN, ADD_EXPIRES_ACCESSTOKEN, REMOVE_EXPIRES_ACCESSTOKEN} from "@modules/auth/authModule";
+import {ADD_ACCESSTOKEN, REMOVE_ACCESSTOKEN, ADD_EXPIRES_ACCESSTOKEN, REMOVE_EXPIRES_ACCESSTOKEN,
+IS_AUTHENTICATED} from "@modules/auth/authModule";
 import {createReducer} from "typesafe-actions";
 import produce from "immer";
 
 const initialState : Auth = {
 	accessToken : "",
-	tokenExpiresTime : ""
+	tokenExpiresTime : "",
+	isAuthenticated : ""
 };
 
 const auth = createReducer<Auth, AuthAction>(initialState, {
@@ -24,7 +26,11 @@ const auth = createReducer<Auth, AuthAction>(initialState, {
 	[REMOVE_EXPIRES_ACCESSTOKEN] : (state, action) =>
 	produce(state, draft => {
 		draft.tokenExpiresTime = "";
-	})
+	}),
+	[IS_AUTHENTICATED] : (state, action) =>
+	produce(state, draft => {
+		draft.isAuthenticated = action.payload.isAuthenticated;
+	}),
 });
 
 export default auth;

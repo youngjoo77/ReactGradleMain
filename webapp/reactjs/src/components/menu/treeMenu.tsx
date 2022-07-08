@@ -2,14 +2,16 @@ import { useNavigate } from 'react-router';
 import TreeView from '@mui/lab/TreeView';
 import {ExpandMore, ChevronRight} from '@mui/icons-material';
 import TreeItem from '@mui/lab/TreeItem';
-
+import { Container, CssBaseline, Typography, Box } from "@mui/material"
 const TreeMenu = () => {
 	const navigate = useNavigate();
 	
 	
 	
   return (
-    <TreeView
+	<Container component="aside">
+		<CssBaseline/>
+		<TreeView
       aria-label="file system navigator"
       defaultCollapseIcon={<ExpandMore />}
       defaultExpandIcon={<ChevronRight />}
@@ -22,6 +24,7 @@ const TreeMenu = () => {
         <TreeItem nodeId="2-2" label="TEST 2" onClick={props => navigate("/testPage2")}/>
       </TreeItem>
     </TreeView>
+	</Container>
   );
 }
 
