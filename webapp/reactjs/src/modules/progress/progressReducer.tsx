@@ -7,11 +7,11 @@ const initialState : ProgressType = {
 	progressOpen : false
 };
 
-const progressReducer = createReducer<ProgressType, ProgressAction>(initialState, {
+const progress = createReducer<ProgressType, ProgressAction>(initialState, {
 	[TOGGLE_PROGRESS] : (state, action) =>
 	produce(state, draft => {
 		draft.progressOpen = action.payload.progressOpen;
 	})
 });
 
-export default progressReducer;
+export default progress;

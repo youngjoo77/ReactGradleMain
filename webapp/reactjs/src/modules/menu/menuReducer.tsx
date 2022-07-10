@@ -7,7 +7,7 @@ const initialState : MenuListType = {
 	menuItems : [],
 };
 
-const menuReducer = createReducer<MenuListType, MenuAction>(initialState, {
+const menu = createReducer<MenuListType, MenuAction>(initialState, {
 	[ADD_MENU_LIST] : (state, action) =>
 	produce(state, draft => {
 		draft.menuItems = action.payload.menuItems;
@@ -18,4 +18,4 @@ const menuReducer = createReducer<MenuListType, MenuAction>(initialState, {
 	})
 });
 
-export default menuReducer;
+export default menu;

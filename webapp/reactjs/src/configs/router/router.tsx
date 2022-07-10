@@ -35,7 +35,17 @@ const Router = () => {
 	//        </Route>
 //	<Route path="/main" element={<Layouts><Main /></Layouts>} />
 	const dispatch = useDispatch();
-
+	
+	const progress = useSelector((state: RootState) => {
+		console.log(state);
+		if(state.progress.progressOpen === undefined) {
+			return false;
+		}
+		else {
+			return state.progress.progressOpen;
+		}
+	});
+	
 	return (
 		
 		<BrowserRouter>
@@ -58,7 +68,7 @@ const Router = () => {
 			</Suspense>
 			<Backdrop
 				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 10 }}
-				open={useSelector((state: RootState) => state.progress.progressOpen)}
+				open={progress}
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>

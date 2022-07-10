@@ -10,7 +10,7 @@ const initialState : AuthType = {
 	isAuthenticated : false
 };
 
-const authReducer = createReducer<AuthType, AuthAction>(initialState, {
+const auth = createReducer<AuthType, AuthAction>(initialState, {
 	[ADD_ACCESSTOKEN] : (state, action) =>
 	produce(state, draft => {
 		draft.accessToken = action.payload.accessToken;
@@ -33,4 +33,4 @@ const authReducer = createReducer<AuthType, AuthAction>(initialState, {
 	})
 });
 
-export default authReducer;
+export default auth;
