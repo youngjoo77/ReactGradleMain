@@ -104,38 +104,46 @@ const Login = () => {
 		console.log("loginClicked");
 		const loginData: LoginInData = { 'email': email, 'password': password };
 
-		const response = useAxios.POST('/auth/login', loginData, true);
-		response.then((response) => {
-			if (response !== null) {
-				saveIsAuthenticated(true);
-				const result: LoginToken = response.data;
-				setEmail(email);
-				localStorage.setItem('token', result.accessToken);
-				console.log("login success!!!");
-				//				setGrantType(result.grantType);
-				//				setShowSuccessMessage(true);
-				//				setHasLoginFailed(false);
-				//				setCookie('accessToken', result.accessToken); // cookie 세팅 샘플
-				// redux 에 token 생성
-				createAccesstoken(result.accessToken);
-				createExpiresAccesstoken(String(result.tokenExpiresIn));
-				
+		localStorage.setItem('token', "Local-Test-token");
+		saveIsAuthenticated(true);
+		createAccesstoken("Local-Test-token");
+//		createExpiresAccesstoken(String(result.tokenExpiresIn));
+		setMenuList(); // 메뉴생성
+		// main 페이지로 이동
+		navigateHandler();
 
-				setMenuList(); // 메뉴생성
-				// main 페이지로 이동
-				navigateHandler();
-			}
-		}).catch(() => {
-			localStorage.removeItem('token');
-			//			setShowSuccessMessage(false);
-			//			setHasLoginFailed(true);
-
-			// redux 에 token 삭제
-			deleteAccesstoken();
-			deleteExpiresAccesstoken();
-			saveIsAuthenticated(false);
-			//			removeCookie('accessToken'); // cookie 샘플
-		})
+//		const response = useAxios.POST('/auth/login', loginData, true);
+//		response.then((response) => {
+//			if (response !== null) {
+//				saveIsAuthenticated(true);
+//				const result: LoginToken = response.data;
+//				setEmail(email);
+//				localStorage.setItem('token', result.accessToken);
+//				console.log("login success!!!");
+//				//				setGrantType(result.grantType);
+//				//				setShowSuccessMessage(true);
+//				//				setHasLoginFailed(false);
+//				//				setCookie('accessToken', result.accessToken); // cookie 세팅 샘플
+//				// redux 에 token 생성
+//				createAccesstoken(result.accessToken);
+//				createExpiresAccesstoken(String(result.tokenExpiresIn));
+//
+//
+//				setMenuList(); // 메뉴생성
+//				// main 페이지로 이동
+//				navigateHandler();
+//			}
+//		}).catch(() => {
+//			localStorage.removeItem('token');
+//			//			setShowSuccessMessage(false);
+//			//			setHasLoginFailed(true);
+//
+//			// redux 에 token 삭제
+//			deleteAccesstoken();
+//			deleteExpiresAccesstoken();
+//			saveIsAuthenticated(false);
+//			//			removeCookie('accessToken'); // cookie 샘플
+//		})
 	}
 
 	return (
