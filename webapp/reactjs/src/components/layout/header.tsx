@@ -2,21 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from "react-redux";
 import { removeAccesstoken, removeExpiresAccesstoken, isAuthenticated } from "@modules/auth/authModule"
-import { BasicButton } from "@components/button/button"
 
-import { Box, Typography, Toolbar, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Typography, Toolbar, IconButton } from '@mui/material';
+import { Logout } from '@mui/icons-material';
 
-interface HeaderProps {
-	open: boolean
-	handleDrawerOpen: any
-};
-
-const Header = ({ open, handleDrawerOpen}: HeaderProps) => {
+const Header = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-
-
 	const deleteAccesstoken = React.useCallback(() => dispatch(removeAccesstoken()),
 		[dispatch]
 	);
@@ -30,46 +22,37 @@ const Header = ({ open, handleDrawerOpen}: HeaderProps) => {
 		[dispatch]
 	);
 
-
-
-	console.log("Header !!!!");
-
 	const LogoutHandler = () => {
 		console.log("logout  버튼 클릭 !!!!");
 
-		localStorage.removeItem('token');
-
+		localStorage.removeItem('token'); // 토큰삭제
 		deleteAccesstoken();
-		deleteExpiresAccesstoken();
-		saveIsAuthenticated(false);
+
+		deleteExpiresAccesstoken(); // 토큰유효시간 삭제
+		saveIsAuthenticated(false); // 권한검증여부 false 설정
 
 		navigate("/login"); // 로그인 페이지로 이동
 	}
 
 	return (
 		<Toolbar>
-			<IconButton
-				color="inherit"
-				aria-label="open drawer"
-				onClick={handleDrawerOpen}
-				edge="start"
-				sx={{
-					marginRight: 5,
-					...(open && { display: 'none' }),
-				}}
-			>
-			<MenuIcon />
-			</IconButton>
-			<Typography variant="h6" noWrap component="div">
-				HEADER
+			<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+				HEADER 영역입니다.
 			</Typography>
-			<BasicButton
-					variant="contained"
+			<div>
+				<IconButton
+					size="large"
+					aria-label="account of current user"
+					aria-controls="menu-appbar"
+					aria-haspopup="true"
 					onClick={LogoutHandler}
+					color="inherit"
 				>
-					logout
-				</BasicButton>
+					<Logout />
+				</IconButton>
+			</div>
 		</Toolbar>
 	)
 }
+
 export default Header;

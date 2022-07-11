@@ -9,8 +9,10 @@ import {
 	addAccesstoken, removeAccesstoken, addExpiresAccesstoken,
 	removeExpiresAccesstoken, isAuthenticated
 } from "@modules/auth/authModule"
+import { toggleProgress } from "@modules/progress/progressModule"
 import { addMenuList } from "@modules/menu/menuModule"
 import { MenuListType } from "@modules/menu/menuType"
+
 import { BasicButton } from "@components/button/button"
 
 import { Container, CssBaseline, Avatar, Typography, TextField, Box } from "@mui/material"
@@ -40,6 +42,12 @@ const Login = () => {
 
 	const createMenuList = React.useCallback(
 		(menuList: MenuListType) => dispatch(addMenuList(menuList)),
+		[dispatch]
+	);
+
+	// progress bar 함수
+	const toggleProgressHandler = React.useCallback(
+		(progressOpen: boolean) => dispatch(toggleProgress({ progressOpen: progressOpen })),
 		[dispatch]
 	);
 
@@ -103,15 +111,19 @@ const Login = () => {
 	const loginClicked = () => {
 		console.log("loginClicked");
 		const loginData: LoginInData = { 'email': email, 'password': password };
-
+		
+		toggleProgressHandler(true); // Progress bar 생성
 		localStorage.setItem('token', "Local-Test-token");
 		saveIsAuthenticated(true);
 		createAccesstoken("Local-Test-token");
 //		createExpiresAccesstoken(String(result.tokenExpiresIn));
 		setMenuList(); // 메뉴생성
+		
+		toggleProgressHandler(false); // Progress bar 삭제
+		
 		// main 페이지로 이동
 		navigateHandler();
-
+	
 //		const response = useAxios.POST('/auth/login', loginData, true);
 //		response.then((response) => {
 //			if (response !== null) {
