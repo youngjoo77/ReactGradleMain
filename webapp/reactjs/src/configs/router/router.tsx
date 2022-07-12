@@ -37,7 +37,6 @@ const Router = () => {
 	const dispatch = useDispatch();
 	
 	const progress = useSelector((state: RootState) => {
-		console.log(state);
 		if(state.progress.progressOpen === undefined) {
 			return false;
 		}
