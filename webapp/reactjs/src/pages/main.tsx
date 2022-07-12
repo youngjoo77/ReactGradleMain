@@ -1,66 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom"
-import { BasicButton } from "@components/button/button"
-import { AutoCompleteField, CustomTextField } from "@components/field/field"
-
-interface codeData {
-	code: string;
-	label: string;
-}
+import React from 'react';
+import { isMobile } from "react-device-detect";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { CalendarPicker } from "@mui/x-date-pickers";
 
 const Main = () => {
-	const [autoCompleteFieldValue, setAutoCompleteFieldValue] = useState<codeData | null>(null);
-	const [customTextFieldValue, setCustomTextFieldValue] = useState("");
 
-	useEffect(() => {
-		if(autoCompleteFieldValue) {
-			console.log(autoCompleteFieldValue.code);
-		}
-		
-		if(customTextFieldValue) {
-			console.log("useEffect customTextFieldValue : " + customTextFieldValue);
-		}
-		
-	}, [autoCompleteFieldValue, customTextFieldValue]);
+	const [datePickerValue, setDatePickerValue] = React.useState<Date | null>(new Date());
+	const displayType = isMobile ? 'mobile' : 'desktop';
 
-	const handleAutoCompleteFieldChange = (
-		event: React.SyntheticEvent<Element, Event>,
-		value: codeData
-	) => {
-		if (value) {
-			setAutoCompleteFieldValue(value);
+	React.useEffect(() => {
+		// 날짜가 변경 되었을때 실행 된다.
+		console.log(datePickerValue);
+		if(datePickerValue) {
+			let today = datePickerValue;
+			console.log((today.toISOString().split('T')[0]).replace(/-/g, ""));
 		}
-	};
-	
-	const handleCustomTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setCustomTextFieldValue(e.target.value)
-	}
-	
+	}, [datePickerValue]);
+
 	return (
-		<div>
-			<div>Main page</div>
-			{
-				// 버튼 샘플
-			}
-			<BasicButton component={Link} to="/testPage1">go testPage1</BasicButton>
-
-			<AutoCompleteField
-				id="TEST"
-				name="TEST"
-				code="123455"
-				isDisable={false}
-				labelType="LC"
-				handleChange={handleAutoCompleteFieldChange}
-			/>
-			
-			<CustomTextField
-				name='TEST CUSTOM TEXT FIELD'
-				value= {customTextFieldValue}
-				label="TEST CUSTOM TEXT FIELD"
-				onChange={handleCustomTextFieldChange}
-			/>
-		</div>
-
+		<LocalizationProvider dateAdapter={AdapterDateFns}>
+			<CalendarPicker
+				date={datePickerValue}
+				onChange={(newValue) => {
+					setDatePickerValue(newValue);
+				}} />
+		</LocalizationProvider>
 	)
 }
 
