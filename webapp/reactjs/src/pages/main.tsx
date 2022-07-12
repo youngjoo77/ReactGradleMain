@@ -18,8 +18,17 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import ExhibitionList from '@pages/exhibition/exhibitionList'
-
 import { ExhibitionDataProp } from "@interfaces/exhibitionDataProp"
+
+import KakaoMap from "@components/map/kakaoMap"
+
+interface KakaoMapInterface {
+	titleKakaoMap : string
+	nameKakaoMap: string
+	latitudeKakaoMap: string
+	longitudeKakaoMap: string
+	placeKakaoMap: string
+}
 
 const BpIcon = styled('span')(({ theme }) => ({
 	borderRadius: '50%',
@@ -82,14 +91,15 @@ const BpRadio = (props: RadioProps) => {
 }
 
 const Main = () => {
-
+	const displayType = isMobile ? 'mobile' : 'desktop';
 	const [datePickerValue, setDatePickerValue] = React.useState<Date | null>(new Date());
 	const [targetServiceValue, setTargetServiceValue] = React.useState("");
 
 	// list 의 state 설정
 	const [exhibitionDataList, setExhibitionDataList] = React.useState<ExhibitionDataProp[]>([]);
 
-	const displayType = isMobile ? 'mobile' : 'desktop';
+	// map open 여부 설정
+	const [openKakaoMap, setOpenKakaoMap] = React.useState(false);
 
 	React.useEffect(() => {
 		// 날짜가 변경 되었을때 실행 된다.
@@ -136,6 +146,23 @@ const Main = () => {
 		setTargetServiceValue((event.target as HTMLInputElement).value);
 	}
 
+	const [titleKakaoMapValue, seTitleKakaoMapValue] = React.useState("");
+	const [nameKakaoMapValue, setNameKakaoMap] = React.useState("");
+	const [latitudeKakaoMapValue, setLatitudeKakaoMapValue] = React.useState("");
+	const [longitudeKakaoMapValue, setLongitudeKakaoMapValue] = React.useState("");
+	const [placeKakaoMapValue, setPlaceKakaoMapValue] = React.useState("");
+	
+	const setKaKaoMapInfoHandler = ({titleKakaoMap, nameKakaoMap, latitudeKakaoMap, longitudeKakaoMap, placeKakaoMap} : KakaoMapInterface) => {
+		console.log("setKaKaoMapInfoHandler : "+titleKakaoMap);
+		seTitleKakaoMapValue(titleKakaoMap);
+		setNameKakaoMap(nameKakaoMap);
+		setLatitudeKakaoMapValue(latitudeKakaoMap);
+		setLongitudeKakaoMapValue(longitudeKakaoMap);
+		setPlaceKakaoMapValue(placeKakaoMap);
+		
+		setOpenKakaoMap(true);
+	}
+	
 	return (
 		<React.Fragment>
 			<Container sx={{ width: '100%' }}>
@@ -196,13 +223,24 @@ const Main = () => {
 					</Typography>
 				</Box>
 				<Divider />
-				
+
 				<Box sx={{ width: '100%' }}>
 					<ExhibitionList
 						exhibitionDataList={exhibitionDataList}
+						setKaKaoMapInfoHandler = {setKaKaoMapInfoHandler}
 					/>
 				</Box>
 
+				<KakaoMap
+					key={'kakaomap_main'}
+					open={openKakaoMap}
+					setOpen={setOpenKakaoMap}
+					title={titleKakaoMapValue}
+					name={nameKakaoMapValue}
+					latitude={latitudeKakaoMapValue}
+					longitude={longitudeKakaoMapValue}
+					place={placeKakaoMapValue}
+				/>
 			</Container>
 		</React.Fragment >
 	)

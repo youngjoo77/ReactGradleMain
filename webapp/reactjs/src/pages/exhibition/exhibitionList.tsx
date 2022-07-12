@@ -18,8 +18,10 @@ const Div = styled('div')(({ theme }) => ({
 	backgroundColor: theme.palette.background.paper,
 }));
 
-const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[] }) => {
+const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKaKaoMapInfoHandler : any }) => {
 	const exhibitionDataList = props.exhibitionDataList;
+	const setKaKaoMapInfoHandler = props.setKaKaoMapInfoHandler;
+	
 	const [switchChecked, setSwitchChecked] = React.useState(['']);
 
 	// switch 버튼 핸들러
@@ -51,6 +53,8 @@ const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[] }) => 
 	// 지도 버튼 핸들러
 	const mapHandler = (target: string) => {
 		console.log(target);
+		const mapData = {titleKakaoMap : target,  nameKakaoMap : "", latitudeKakaoMap : "37.402056", longitudeKakaoMap : "127.108212", placeKakaoMap : "18577297"};
+		setKaKaoMapInfoHandler(mapData);
 	}
 
 	// text 핸들러
