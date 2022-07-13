@@ -1,7 +1,5 @@
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -25,10 +23,9 @@ const KakaoMap = ({
 	open,
 	setOpen,
 	title,
-	name,
 	latitude,
 	longitude,
-	place
+	location
 }: KakaoMapProp) => {
 	const { kakao }: any = window;
 
@@ -49,53 +46,34 @@ const KakaoMap = ({
 
 	React.useEffect(() => {
 		console.log("kakao useEffect START");
-		const mapScript = document.createElement("script");
-		mapScript.async = true;
-		mapScript.src = '//dapi.kakao.com/v2/maps/sdk.js?appkey=ab4a5501e93f5f214f48bc77557e3fd2&autoload=false';
-
-		const onLoadKakaoMap = () => {
-			console.log("AAAAAAAAAAAAAAAAA");
-			kakao.maps.load(() => {
-				const container = document.querySelector('#kakaoMapArea');
-
-				console.log("container : " + container);
-
-
-				const options = {
-					//					center: new kakao.maps.LatLng(Number(latitude), Number(longitude)),
-					center: new kakao.maps.LatLng(33.450701, 126.570667),
-				};
-				const map = new kakao.maps.Map(container, options);
-				//				const markerPosition = new kakao.maps.LatLng(latitude, longitude);
-				const markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
-				const marker = new kakao.maps.Marker({
-					position: markerPosition,
-				});
-				marker.setMap(map);
-			});
-		};
 
 		if (isOpen) {
-			//			mapScript.addEventListener("load", onLoadKakaoMap);
-
 			let container = document.querySelector('#kakaoMapArea');
 			let options = {
-				center: new kakao.maps.LatLng(33.450701, 126.570667),
+				center: new kakao.maps.LatLng(latitude, longitude),
+				//				center: new kakao.maps.LatLng(33.450701, 126.570667),
 				level: 3
 			};
 
 			let map = new kakao.maps.Map(container, options);
 
-			const markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+			// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다 TOPLEFT
+			// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+//			var mapTypeControl = new kakao.maps.MapTypeControl();
+//			map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+			// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+			var zoomControl = new kakao.maps.ZoomControl();
+			map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+			const markerPosition = new kakao.maps.LatLng(latitude, longitude);
+			//			const markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
 			const marker = new kakao.maps.Marker({
 				position: markerPosition,
 			});
 			marker.setMap(map);
 		}
-		else {
-			mapScript.removeEventListener("load", onLoadKakaoMap);
-		}
-
+		
 	}, [isOpen]);
 
 

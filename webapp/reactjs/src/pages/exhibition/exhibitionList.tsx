@@ -18,10 +18,10 @@ const Div = styled('div')(({ theme }) => ({
 	backgroundColor: theme.palette.background.paper,
 }));
 
-const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKaKaoMapInfoHandler : any }) => {
+const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKaKaoMapInfoHandler: any }) => {
 	const exhibitionDataList = props.exhibitionDataList;
 	const setKaKaoMapInfoHandler = props.setKaKaoMapInfoHandler;
-	
+
 	const [switchChecked, setSwitchChecked] = React.useState(['']);
 
 	// switch 버튼 핸들러
@@ -51,9 +51,14 @@ const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKa
 	}, [exhibitionDataList]);
 
 	// 지도 버튼 핸들러
-	const mapHandler = (target: string) => {
-		console.log(target);
-		const mapData = {titleKakaoMap : target,  nameKakaoMap : "", latitudeKakaoMap : "37.402056", longitudeKakaoMap : "127.108212", placeKakaoMap : "18577297"};
+	const mapHandler = (title: string, location: string, latitude: number, longitude: number) => {
+
+		const mapData = {
+			titleKakaoMap: title,
+			latitudeKakaoMap: latitude,
+			longitudeKakaoMap: longitude,
+			placeKakaoMap: location
+		};
 		setKaKaoMapInfoHandler(mapData);
 	}
 
@@ -81,7 +86,12 @@ const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKa
 									onClick={() => { listItemTextHandler(data.id) }}
 								/>
 
-								<IconButton edge="start" aria-label="map" onClick={() => { mapHandler(data.location) }}>
+								<IconButton edge="start" aria-label="map" onClick={() => {
+									mapHandler(data.title,
+													   data.location,
+													   data.latitude,
+													   data.longitude)
+								}}>
 									<AddLocationAlt />
 								</IconButton>
 

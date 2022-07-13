@@ -23,11 +23,10 @@ import { ExhibitionDataProp } from "@interfaces/exhibitionDataProp"
 import KakaoMap from "@components/map/kakaoMap"
 
 interface KakaoMapInterface {
-	titleKakaoMap : string
-	nameKakaoMap: string
-	latitudeKakaoMap: string
-	longitudeKakaoMap: string
-	placeKakaoMap: string
+	titleKakaoMap: string
+	latitudeKakaoMap: number
+	longitudeKakaoMap: number
+	locationKakaoMap: string
 }
 
 const BpIcon = styled('span')(({ theme }) => ({
@@ -92,6 +91,7 @@ const BpRadio = (props: RadioProps) => {
 
 const Main = () => {
 	const displayType = isMobile ? 'mobile' : 'desktop';
+
 	const [datePickerValue, setDatePickerValue] = React.useState<Date | null>(new Date());
 	const [targetServiceValue, setTargetServiceValue] = React.useState("");
 
@@ -117,11 +117,18 @@ const Main = () => {
 	}, [targetServiceValue]);
 
 	React.useEffect(() => {
+		// 라디오 목록을 조회 하고 첫번째값을 설정 해야 한다.
+		setTargetServiceValue("target1");
+	}, []);
+
+	React.useEffect(() => {
 		const listdata = [];
 		const data1 = {
 			id: "1",
-			title: "target1",
-			location: "target1",
+			title: "카카오",
+			location: "",
+			latitude: 33.450701,
+			longitude: 126.570667,
 			isAccept: false,
 			members: [{ name: "이영주", id: "1" }, { name: "이선영", id: "2" }],
 			maxMember: 6
@@ -130,8 +137,10 @@ const Main = () => {
 		listdata.push(data1);
 		const data2 = {
 			id: "2",
-			title: "target2",
-			location: "target2",
+			title: "뱅크웨어글로벌",
+			location: "11470502",
+			latitude: 37.56317316941238,
+			longitude: 126.96954190478911,
 			isAccept: true,
 			members: [{ name: "이영주", id: "1" }, { name: "이선영", id: "2" }],
 			maxMember: 6
@@ -147,22 +156,19 @@ const Main = () => {
 	}
 
 	const [titleKakaoMapValue, seTitleKakaoMapValue] = React.useState("");
-	const [nameKakaoMapValue, setNameKakaoMap] = React.useState("");
-	const [latitudeKakaoMapValue, setLatitudeKakaoMapValue] = React.useState("");
-	const [longitudeKakaoMapValue, setLongitudeKakaoMapValue] = React.useState("");
-	const [placeKakaoMapValue, setPlaceKakaoMapValue] = React.useState("");
-	
-	const setKaKaoMapInfoHandler = ({titleKakaoMap, nameKakaoMap, latitudeKakaoMap, longitudeKakaoMap, placeKakaoMap} : KakaoMapInterface) => {
-		console.log("setKaKaoMapInfoHandler : "+titleKakaoMap);
+	const [latitudeKakaoMapValue, setLatitudeKakaoMapValue] = React.useState(0);
+	const [longitudeKakaoMapValue, setLongitudeKakaoMapValue] = React.useState(0);
+	const [locationKakaoMapValue, setlocationKakaoMapValue] = React.useState("");
+
+	const setKaKaoMapInfoHandler = ({ titleKakaoMap, latitudeKakaoMap, longitudeKakaoMap, locationKakaoMap }: KakaoMapInterface) => {
 		seTitleKakaoMapValue(titleKakaoMap);
-		setNameKakaoMap(nameKakaoMap);
 		setLatitudeKakaoMapValue(latitudeKakaoMap);
 		setLongitudeKakaoMapValue(longitudeKakaoMap);
-		setPlaceKakaoMapValue(placeKakaoMap);
-		
+		setlocationKakaoMapValue(locationKakaoMap);
+
 		setOpenKakaoMap(true);
 	}
-	
+
 	return (
 		<React.Fragment>
 			<Container sx={{ width: '100%' }}>
@@ -191,19 +197,19 @@ const Main = () => {
 					<RadioGroup
 						row
 						aria-labelledby="form-control-label-placement"
-						name="target-service"
-						defaultValue="target-1"
+						name="target-service-radio-buttons-group"
+						defaultValue="target1"
 						value={targetServiceValue}
 						onChange={setTargetServiceValueHandler}
 					>
 						<FormControlLabel
-							value="target-1"
+							value="target1"
 							control={<BpRadio />}
 							label="target-1"
 							labelPlacement="start"
 						/>
 						<FormControlLabel
-							value="target-2"
+							value="target2"
 							control={<BpRadio />}
 							label="target-2"
 							labelPlacement="start"
@@ -227,7 +233,7 @@ const Main = () => {
 				<Box sx={{ width: '100%' }}>
 					<ExhibitionList
 						exhibitionDataList={exhibitionDataList}
-						setKaKaoMapInfoHandler = {setKaKaoMapInfoHandler}
+						setKaKaoMapInfoHandler={setKaKaoMapInfoHandler}
 					/>
 				</Box>
 
@@ -236,10 +242,9 @@ const Main = () => {
 					open={openKakaoMap}
 					setOpen={setOpenKakaoMap}
 					title={titleKakaoMapValue}
-					name={nameKakaoMapValue}
 					latitude={latitudeKakaoMapValue}
 					longitude={longitudeKakaoMapValue}
-					place={placeKakaoMapValue}
+					location={locationKakaoMapValue}
 				/>
 			</Container>
 		</React.Fragment >
