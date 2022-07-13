@@ -155,10 +155,10 @@ const Main = () => {
 		setTargetServiceValue((event.target as HTMLInputElement).value);
 	}
 
-	const [titleKakaoMapValue, seTitleKakaoMapValue] = React.useState("");
-	const [latitudeKakaoMapValue, setLatitudeKakaoMapValue] = React.useState(0);
-	const [longitudeKakaoMapValue, setLongitudeKakaoMapValue] = React.useState(0);
-	const [locationKakaoMapValue, setlocationKakaoMapValue] = React.useState("");
+	const [titleKakaoMapValue, seTitleKakaoMapValue] = React.useState(""); // 지도 제목
+	const [latitudeKakaoMapValue, setLatitudeKakaoMapValue] = React.useState(0); // 지도 위도
+	const [longitudeKakaoMapValue, setLongitudeKakaoMapValue] = React.useState(0); // 지도 경도
+	const [locationKakaoMapValue, setlocationKakaoMapValue] = React.useState(""); // 지도 위치
 
 	const setKaKaoMapInfoHandler = ({ titleKakaoMap, latitudeKakaoMap, longitudeKakaoMap, locationKakaoMap }: KakaoMapInterface) => {
 		seTitleKakaoMapValue(titleKakaoMap);
