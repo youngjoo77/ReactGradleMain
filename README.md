@@ -17,3 +17,22 @@ npm i @types/navermaps --save
 
 grid 패키지 추가
 npm i  @mui/x-data-grid --save
+
+##### VCODE 사용법
+1. VCODE 설치
+2. 로컬 window 에 git 설치
+3. 확장(ctrl + shift + x) 설치
+ -- 공통
+ - Eclipse Keymap
+ - 검색창에 korea 치면 Korean Language Pack for Visual Studio Code
+ -- react
+ - ESLint
+ - Prettier ESLint
+ - Auto Import - ES6, TS, JSX, TSX
+ -- spring Gradle
+ - Extension Pack for Java
+ - Gradle for Java
+ - Spring Boot Extension Pack
+ - Spring Boot Gradle Extension Pack
+ - Lombok Annotations Support for VSCode
+ - Lombok Annotations Support for VS Code
