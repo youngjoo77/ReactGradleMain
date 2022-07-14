@@ -10,7 +10,10 @@ device 패키지 설치
 npm i react-device-detect --save
 
 달력 패키지 설치
-npm i @mui/x-date-pickers @date-io/date-fns date-fns --save
+npm i @mui/x-date-pickers @date-io/date-fns date-fns moment --save
 
 네이버 지도 패키지 추가
 npm i @types/navermaps --save
+
+grid 패키지 추가
+npm i  @mui/x-data-grid --save

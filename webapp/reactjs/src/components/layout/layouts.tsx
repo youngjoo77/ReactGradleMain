@@ -39,4 +39,4 @@ const Layouts = ({ children }: LayoutDefaultProps) => {
 	)
 }
 
-export default Layouts
+export default React.memo(Layouts)

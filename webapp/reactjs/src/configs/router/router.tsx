@@ -1,10 +1,10 @@
-import React, { Suspense, lazy, useState} from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from '@configs/router/privateRouter';
 import Layouts from '@components/layout/layouts';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@modules/rootReducer";
 
 // 화면 목록을 조회하여 Page 에 적재 한다.
@@ -22,19 +22,17 @@ interface lazyData {
 // axios 로 통신해서 해당 데이터를 만들어 낸 후 결과에서 pages 를 만들면 됨
 // lazy로  동적 import 생성
 const pages : lazyData[] = [
-	{element : lazy(() => import('@pages/main')), path : '/main'},
-	{element : lazy(() => import('@pages/test/testPage1')), path : '/testPage1'},
-	{element : lazy(() => import('@pages/test/testPage2')), path : '/testPage2'}
+	{element : React.lazy(() => import('@pages/main')), path : '/main'},
+	{element : React.lazy(() => import('@pages/notice/notice')), path : '/notice'}
 ];
 
 const Router = () => {
-	const Login = lazy(() => import('@pages/login')); // 로그인 페이지는 정적으로 설정 한다.
+	const Login = React.lazy(() => import('@pages/login')); // 로그인 페이지는 정적으로 설정 한다.
 	/* 인증을 반드시 하지 않아야만 접속 가능한 페이지 정의 */
 	//        <Route element={<PrivateRoute authentication={false}/>}>
 	//          <Route path="/login" element={<LoginPage/>} />
 	//        </Route>
 //	<Route path="/main" element={<Layouts><Main /></Layouts>} />
-	const dispatch = useDispatch();
 	
 	const progress = useSelector((state: RootState) => {
 		if(state.progress.progressOpen === undefined) {
@@ -48,7 +46,7 @@ const Router = () => {
 	return (
 		
 		<BrowserRouter>
-			<Suspense fallback={<div>Loading...</div>}>
+			<React.Suspense fallback={<div>Loading...</div>}>
 				<Routes>
 						{/* 인증 여부 상관 없이 접속 가능한 페이지 정의 "/" 로 접근시 login 으로 이동 */}
 						<Route index element={<Navigate replace to="/login"/>} />
@@ -64,7 +62,7 @@ const Router = () => {
 					        ))}
 						</Route>
 				</Routes>
-			</Suspense>
+			</React.Suspense>
 			<Backdrop
 				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 10 }}
 				open={progress}
