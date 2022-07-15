@@ -6,8 +6,9 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
-import CustomDataGrid  from '@components/grid/dataGrid'
-
+import CustomDataGrid from '@components/grid/dataGrid'
+import { GridColDef } from '@mui/x-data-grid';
+import moment from 'moment'
 
 const Notice = () => {
 	const [tabValue, setTabValue] = React.useState("1");
@@ -15,6 +16,33 @@ const Notice = () => {
 	const tabChangehandler = (event: React.SyntheticEvent, newValue: string) => {
 		setTabValue(newValue);
 	};
+
+	const columns: GridColDef[] = [
+		{ field: 'id', type: 'number', headerName: 'ID', flex: 1, hide: true },
+		{ field: 'type', type: 'string', headerName: '구분', flex: 1, sortable: false, filterable: false },
+		{ field: 'content', type: 'string', headerName: '내용', flex: 2, sortable: false, filterable: false },
+		{
+			field: 'registDate', type: 'date', headerName: '등록일자', flex: 1, sortable: false, filterable: false,
+			valueFormatter: params => moment(params?.value).format("YYYY-MM-DD")
+		},
+		{ field: 'detailContent', type: 'string', headerName: 'action', flex: 1, hide: true }
+	];
+
+	const rows = [
+		{ id: 1, type: '구분1', content: 'Snow', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 2, type: '구분2', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 3, type: '구분1', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 4, type: '구분2', content: 'Stark', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 5, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 6, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 7, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 8, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 9, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 10, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 11, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 12, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 13, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' }
+	];
 
 	return (
 		<React.Fragment >
@@ -30,7 +58,11 @@ const Notice = () => {
 						</Box>
 						<TabPanel value="1">
 							<Paper sx={{ width: '100%', overflow: 'hidden' }}>
-								<CustomDataGrid />
+								<CustomDataGrid
+									key={'notice_grid'}
+									columns = {columns}
+									rows = {rows}
+								/>
 							</Paper>
 						</TabPanel>
 						<TabPanel value="2">Item Two</TabPanel>

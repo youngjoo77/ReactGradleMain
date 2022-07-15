@@ -64,19 +64,19 @@ export const AutoCompleteField = <T extends {}>({
 }
 
 type CustomTextFieldProps = {
-  subLabel?: string;
-  tooltip?: string;
+	subLabel?: string;
+	tooltip?: string;
 } & TextFieldProps;
 
 export const CustomTextField = ({
-  label,
-  subLabel,
-  tooltip,
-  ...props
+	label,
+	subLabel,
+	tooltip,
+	...props
 }: CustomTextFieldProps) => {
-  return (
-    <>
-      <TextField {...props} fullWidth />
-    </>
-  );
+	return (
+		<>
+			<TextField {...props} fullWidth />
+		</>
+	);
 };
