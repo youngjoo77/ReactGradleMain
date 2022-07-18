@@ -11,7 +11,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import moment from 'moment'
 
 const Notice = () => {
-	const [tabValue, setTabValue] = React.useState("1");
+	const [tabValue, setTabValue] = React.useState("1"); 
 
 	const tabChangehandler = (event: React.SyntheticEvent, newValue: string) => {
 		setTabValue(newValue);
