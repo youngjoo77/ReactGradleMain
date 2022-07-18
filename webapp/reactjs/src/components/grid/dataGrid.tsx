@@ -1,7 +1,7 @@
 import React from 'react';
-import { DataGrid, GridColDef, GridRowParams, MuiEvent } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowParams, MuiEvent, GridColumnVisibilityModel } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
-//import moment from 'moment' 
+import moment from 'moment'
 
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -24,24 +24,55 @@ const Transition = React.forwardRef(function Transition(
 	return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CustomDataGrid = ({ columns, rows, ...props }: { columns: GridColDef[], rows: any }) => {
+interface columnsProp {
+	field : string
+	type : string
+	headerName : string
+	flex : number
+}
+
+const CustomDataGrid = ({columnVisibility, columns, rows}: { columnVisibility : GridColumnVisibilityModel, columns: columnsProp[], rows: any }) => {
 	/**
 	   * header 와 data를 받아서 redering 해준다.
 	   * row 나 cell 을 클릭 했을때 이벤트를 리번 받아야 한다면 function 도 같이 받는다.
 	   */
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [pageSize, setPageSize] = React.useState(5);
+	
 	const [columnItems, setColumnItems] = React.useState<GridColDef[]>([]);
 	const [rowItems, setRowITems] = React.useState<any>([]);
-
+	
 	const [typeValue, setTypeValue] = React.useState("");
 	const [contentValue, setContentValue] = React.useState("");
 	const [detailContentValue, setDetailContentValue] = React.useState("");
 
-
 	React.useEffect(() => {
-		console.log("111111");
-		setColumnItems(columns); // column 설정
+		let setColumns: GridColDef[] = [];
+
+		// eslint-disable-next-line array-callback-return
+		columns.map((column) => {
+			let columnItem : GridColDef = {
+				field : column.field,
+				type : column.type,
+				headerName : column.headerName,
+				flex : column.flex,
+				sortable : false,
+				filterable : false,
+				valueFormatter : (params) => {
+					if(params?.field.toUpperCase().lastIndexOf('DATE') !== -1) {
+						return moment(params?.value).format("YYYY-MM-DD")
+					}
+					else {
+						return params?.value;
+					}
+					
+				}
+			}
+
+			setColumns.push(columnItem);
+		});
+
+		setColumnItems(setColumns); // column 설정
 		setRowITems(rows); // row 설정
 	}, [columns, rows]);
 
@@ -66,6 +97,7 @@ const CustomDataGrid = ({ columns, rows, ...props }: { columns: GridColDef[], ro
 				<DataGrid
 					rows={rowItems}
 					columns={columnItems}
+					columnVisibilityModel={columnVisibility}
 					pageSize={pageSize}
 					onPageSizeChange={setPageSize}
 					rowsPerPageOptions={[5, 10, 20]}

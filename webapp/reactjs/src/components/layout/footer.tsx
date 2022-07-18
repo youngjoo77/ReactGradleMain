@@ -25,7 +25,7 @@ const Footer = () => {
 			>
 				<BottomNavigationAction label="Main" icon={<AccountBalance />} value={"/main"} />
 				<BottomNavigationAction label="Notice" icon={<Event />} value={"/notice"} />
-				<BottomNavigationAction label="Archive" icon={<Archive />} value={"/page2"} />
+				<BottomNavigationAction label="Archive" icon={<Archive />} value={"/changePassWord"} />
 			</BottomNavigation>
 		</Paper>
 	)

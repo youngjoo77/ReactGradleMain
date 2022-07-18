@@ -23,7 +23,8 @@ interface lazyData {
 // lazy로  동적 import 생성
 const pages : lazyData[] = [
 	{element : React.lazy(() => import('@pages/main')), path : '/main'},
-	{element : React.lazy(() => import('@pages/notice/notice')), path : '/notice'}
+	{element : React.lazy(() => import('@pages/notice/notice')), path : '/notice'},
+	{element : React.lazy(() => import('@pages/member/changePassWord')), path : '/changePassWord'}
 ];
 
 const Router = () => {

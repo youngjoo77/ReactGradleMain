@@ -42,7 +42,7 @@ const KakaoMap = ({
 		if (open) {
 			setOpenHandler(open);
 		}
-	})
+	}, [open])
 
 	React.useEffect(() => {
 		console.log("kakao useEffect START");
@@ -74,7 +74,7 @@ const KakaoMap = ({
 			marker.setMap(map);
 		}
 		
-	}, [isOpen]);
+	}, [isOpen, kakao.maps.ControlPosition.RIGHT, kakao.maps.LatLng, kakao.maps.Map, kakao.maps.Marker, kakao.maps.ZoomControl, latitude, longitude]);
 
 
 	return (
