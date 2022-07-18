@@ -60,8 +60,8 @@ const Notice = () => {
 							<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 								<CustomDataGrid
 									key={'notice_grid'}
-									columns = {columns}
-									rows = {rows}
+									columns={columns}
+									rows={rows}
 								/>
 							</Paper>
 						</TabPanel>
