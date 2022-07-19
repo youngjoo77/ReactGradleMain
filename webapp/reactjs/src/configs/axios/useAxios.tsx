@@ -1,6 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useSelector } from "react-redux";
-import { RootState } from "@modules/rootReducer";
 
 interface ServerError {
 	errorMessage: string
@@ -8,7 +6,7 @@ interface ServerError {
 
 interface LoginFailType {
 	status: number,
-	 error: string
+	error: string
 };
 
 interface FetchData {
@@ -18,21 +16,15 @@ interface FetchData {
 	loading: boolean
 };
 
-const GetAccessToken =() => {
-	return useSelector((state: RootState) => state.auth.accessToken);
-}
 const FetchAuth = async (fetchData: FetchData) => {
 	const baseUrl = "/api";
 	const method = fetchData.method;
 	const url = baseUrl + fetchData.url;
 	const data = fetchData.data;
-	//	const isloading = fetchData.loading;
 	const accessToken = localStorage.getItem('token');
-	
-//	console.log("accessTokena : "+accessTokena);
-	
-	const token = (accessToken != null || accessToken != "") ? ' Bearer ' + accessToken : '';
-	
+
+	const token = (accessToken != null || accessToken !== "") ? ' Bearer ' + accessToken : '';
+
 	const header = {
 		headers: {
 			'Content-Type': 'application/json',
@@ -93,4 +85,5 @@ const DELETE = async (url: string, loading: boolean) => {
 	return response;
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { GET, POST, PUT, DELETE }
