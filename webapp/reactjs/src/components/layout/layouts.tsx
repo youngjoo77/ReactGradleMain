@@ -6,9 +6,7 @@ import { RootState } from "@modules/rootReducer";
 import Header from '@components/layout/header'
 import Footer from '@components/layout/footer'
 
-import { Box, CssBaseline, Toolbar } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-
+import { Box, CssBaseline } from '@mui/material';
 
 interface LayoutDefaultProps {
 	children?: React.ReactElement;
@@ -23,9 +21,7 @@ const Layouts = ({ children }: LayoutDefaultProps) => {
 
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
-			<AppBar component="nav">
-				<Header />
-			</AppBar>
+			<Header />
 
 			<Box component="main" sx={{ flexGrow: 3, pt: 7 }}>
 				{/* Content 영역 */}

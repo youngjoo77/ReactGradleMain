@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from "react-redux";
 import { removeAccesstoken, removeExpiresAccesstoken, isAuthenticated } from "@modules/auth/authModule"
 
-import { Typography, Toolbar, IconButton } from '@mui/material';
+import { Typography, Toolbar, IconButton, AppBar } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 
 const Header = () => {
@@ -35,23 +35,27 @@ const Header = () => {
 	}
 
 	return (
-		<Toolbar>
-			<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-				HEADER 영역입니다.
-			</Typography>
-			<div>
-				<IconButton
-					size="large"
-					aria-label="account of current user"
-					aria-controls="menu-appbar"
-					aria-haspopup="true"
-					onClick={LogoutHandler}
-					color="inherit"
-				>
-					<Logout />
-				</IconButton>
-			</div>
-		</Toolbar>
+		<Typography component="header">
+			<AppBar component="nav">
+				<Toolbar>
+					<Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+						HEADER 영역입니다.
+					</Typography>
+					<Typography component="div">
+						<IconButton
+							size="large"
+							aria-label="account of current user"
+							aria-controls="menu-appbar"
+							aria-haspopup="true"
+							onClick={LogoutHandler}
+							color="inherit"
+						>
+							<Logout />
+						</IconButton>
+					</Typography>
+				</Toolbar>
+			</AppBar>
+		</Typography>
 	)
 }
 

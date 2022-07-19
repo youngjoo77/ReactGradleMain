@@ -10,8 +10,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute = ({ authentication }: PrivateRouteProps): React.ReactElement | null => {
 	const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-	console.log(isAuthenticated);
-	
+
 	/**
 	  * 로그인 했는지 여부
 	  * 로그인 했을 경우 : true 라는 텍스트 반환

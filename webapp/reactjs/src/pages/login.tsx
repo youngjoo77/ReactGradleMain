@@ -13,7 +13,7 @@ import { toggleProgress } from "@modules/progress/progressModule"
 import { addMenuList } from "@modules/menu/menuModule"
 import { MenuListType } from "@modules/menu/menuType"
 
-import { BasicButton } from "@components/button/button"
+import { CustomBasicButton } from "@components/button/button"
 
 import { Container, CssBaseline, Avatar, Typography, TextField, Box } from "@mui/material"
 import { LockOutlined } from "@mui/icons-material"
@@ -201,14 +201,14 @@ const Login = () => {
 						onChange={passwordChange}
 						autoComplete="current-password"
 					/>
-					<BasicButton
+					<CustomBasicButton
 						fullWidth
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
 						onClick={loginClicked}
 					>
 						Login
-					</BasicButton>
+					</CustomBasicButton>
 				</Box>
 			</Box>
 			<Copyright sx={{ mt: 8, mb: 4 }} />

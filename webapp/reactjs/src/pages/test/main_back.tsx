@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom"
-import { BasicButton } from "@components/button/button"
+import { CustomBasicButton } from "@components/button/button"
 import { AutoCompleteField, CustomTextField } from "@components/field/field"
 
 interface codeData {
@@ -42,7 +42,7 @@ const Main = () => {
 			{
 				// 버튼 샘플
 			}
-			<BasicButton component={Link} to="/testPage1">go testPage1</BasicButton>
+			<CustomBasicButton component={Link} to="/testPage1">go testPage1</CustomBasicButton>
 
 			<AutoCompleteField
 				id="TEST"
