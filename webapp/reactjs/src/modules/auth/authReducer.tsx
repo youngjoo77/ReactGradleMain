@@ -1,13 +1,14 @@
 import {AuthAction, AuthType} from "@modules/auth/authType";
 import {ADD_ACCESSTOKEN, REMOVE_ACCESSTOKEN, ADD_EXPIRES_ACCESSTOKEN, REMOVE_EXPIRES_ACCESSTOKEN,
-IS_AUTHENTICATED} from "@modules/auth/authModule";
+IS_AUTHENTICATED, ADD_USER_ROLE} from "@modules/auth/authModule";
 import {createReducer} from "typesafe-actions";
 import produce from "immer";
 
 const initialState : AuthType = {
 	accessToken : "",
 	tokenExpiresTime : "",
-	isAuthenticated : false
+	isAuthenticated : false,
+	role : ""
 };
 
 const auth = createReducer<AuthType, AuthAction>(initialState, {
@@ -30,6 +31,10 @@ const auth = createReducer<AuthType, AuthAction>(initialState, {
 	[IS_AUTHENTICATED] : (state, action) =>
 	produce(state, draft => {
 		draft.isAuthenticated = action.payload.isAuthenticated;
+	}),
+	[ADD_USER_ROLE] : (state, action) =>
+	produce(state, draft => {
+		draft.role = action.payload.role;
 	})
 });
 

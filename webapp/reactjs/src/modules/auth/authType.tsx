@@ -7,4 +7,5 @@ export interface AuthType {
 	accessToken : string
 	tokenExpiresTime : string
 	isAuthenticated : boolean
+	role : string
 };

@@ -15,7 +15,7 @@ interface LayoutDefaultProps {
 const Layouts = ({ children }: LayoutDefaultProps) => {
 
 	const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-	console.log(accessToken);
+	console.log("accessToken : " + accessToken);
 
 	return (
 

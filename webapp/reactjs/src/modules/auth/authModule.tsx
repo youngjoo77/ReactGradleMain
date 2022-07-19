@@ -13,7 +13,7 @@ export const REMOVE_ACCESSTOKEN = 'auth/REMOVE_ACCESSTOKEN';
 export const ADD_EXPIRES_ACCESSTOKEN = 'auth/ADD_EXPIRES_ACCESSTOKEN';
 export const REMOVE_EXPIRES_ACCESSTOKEN = 'auth/REMOVE_EXPIRES_ACCESSTOKEN';
 export const IS_AUTHENTICATED = 'auth/IS_AUTHENTICATED';
-
+export const ADD_USER_ROLE = 'auth/ADD_USER_ROLE';
 
 
 export const addAccesstoken = createStandardAction(ADD_ACCESSTOKEN)<{
@@ -30,4 +30,8 @@ export const removeExpiresAccesstoken = createStandardAction(REMOVE_EXPIRES_ACCE
 
 export const isAuthenticated = createStandardAction(IS_AUTHENTICATED)<{
 	 isAuthenticated : boolean
+}>();
+
+export const addUserRole = createStandardAction(ADD_USER_ROLE)<{
+	role : string
 }>();

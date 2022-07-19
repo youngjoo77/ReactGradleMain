@@ -25,23 +25,23 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface columnsProp {
-	field : string
-	type : string
-	headerName : string
-	flex : number
+	field: string
+	type: string
+	headerName: string
+	flex: number
 }
 
-const CustomDataGrid = ({columnVisibility, columns, rows}: { columnVisibility : GridColumnVisibilityModel, columns: columnsProp[], rows: any }) => {
+const CustomDataGrid = ({ columnVisibility, columns, rows }: { columnVisibility: GridColumnVisibilityModel, columns: columnsProp[], rows: any }) => {
 	/**
 	   * header 와 data를 받아서 redering 해준다.
 	   * row 나 cell 을 클릭 했을때 이벤트를 리번 받아야 한다면 function 도 같이 받는다.
 	   */
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [pageSize, setPageSize] = React.useState(5);
-	
+
 	const [columnItems, setColumnItems] = React.useState<GridColDef[]>([]);
 	const [rowItems, setRowITems] = React.useState<any>([]);
-	
+
 	const [typeValue, setTypeValue] = React.useState("");
 	const [contentValue, setContentValue] = React.useState("");
 	const [detailContentValue, setDetailContentValue] = React.useState("");
@@ -51,21 +51,21 @@ const CustomDataGrid = ({columnVisibility, columns, rows}: { columnVisibility : 
 
 		// eslint-disable-next-line array-callback-return
 		columns.map((column) => {
-			let columnItem : GridColDef = {
-				field : column.field,
-				type : column.type,
-				headerName : column.headerName,
-				flex : column.flex,
-				sortable : false,
-				filterable : false,
-				valueFormatter : (params) => {
-					if(params?.field.toUpperCase().lastIndexOf('DATE') !== -1) {
+			let columnItem: GridColDef = {
+				field: column.field,
+				type: column.type,
+				headerName: column.headerName,
+				flex: column.flex,
+				sortable: false,
+				filterable: false,
+				valueFormatter: (params) => {
+					if (params?.field.toUpperCase().lastIndexOf('DATE') !== -1) {
 						return moment(params?.value).format("YYYY-MM-DD")
 					}
 					else {
 						return params?.value;
 					}
-					
+
 				}
 			}
 
@@ -83,7 +83,6 @@ const CustomDataGrid = ({columnVisibility, columns, rows}: { columnVisibility : 
 	const onRowClick = (params: GridRowParams<any>, event: MuiEvent<React.MouseEvent<HTMLElement, MouseEvent>>) => {
 		if (!event.ctrlKey) {
 			event.defaultMuiPrevented = true;
-			console.log("onRowClick 클릭 :" + params.row.content + " = " + params.row.detailContent);
 			setTypeValue(params.row.type);
 			setContentValue(params.row.content);
 			setDetailContentValue(params.row.detailContent);

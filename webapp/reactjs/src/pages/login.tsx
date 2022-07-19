@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from "react-redux";
 
-import useAxios from '@configs/axios/useAxios';
-
 import {
 	addAccesstoken, removeAccesstoken, addExpiresAccesstoken,
-	removeExpiresAccesstoken, isAuthenticated
+	removeExpiresAccesstoken, isAuthenticated, addUserRole
 } from "@modules/auth/authModule"
 import { toggleProgress } from "@modules/progress/progressModule"
 import { addMenuList } from "@modules/menu/menuModule"
@@ -17,6 +15,7 @@ import { CustomBasicButton } from "@components/button/button"
 import { Container, CssBaseline, Avatar, Typography, TextField, Box } from "@mui/material"
 import { LockOutlined } from "@mui/icons-material"
 import Link from '@mui/material/Link';
+import useAxios from '@configs/axios/useAxios';
 
 const Copyright = (props: any) => {
 	return (
@@ -60,27 +59,37 @@ const Login = () => {
 		[dispatch]
 	);
 
-	// auth 관련 생성 함수
+	// 토큰 생성 함수
 	const createAccesstoken = React.useCallback(
 		(accessToken: string) => dispatch(addAccesstoken({ accessToken: accessToken })),
 		[dispatch]
 	);
 
+	// 토큰 삭제 함수
 	const deleteAccesstoken = React.useCallback(() => dispatch(removeAccesstoken()),
 		[dispatch]
 	);
 
+	// 토큰 유효시간 생성 함후
 	const createExpiresAccesstoken = React.useCallback(
 		(tokenExpiresTime: string) => dispatch(addExpiresAccesstoken({ tokenExpiresTime: tokenExpiresTime })),
 		[dispatch]
 	);
 
+	// 토큰 유효시간 삭제 함수
 	const deleteExpiresAccesstoken = React.useCallback(() => dispatch(removeExpiresAccesstoken()),
 		[dispatch]
 	);
 
+	// 권한 체크 저장 함수
 	const saveIsAuthenticated = React.useCallback(
 		(authenticated: boolean) => dispatch(isAuthenticated({ isAuthenticated: authenticated })),
+		[dispatch]
+	);
+	
+	// 사용자 역할 저장 함수
+	const saveUserRole = React.useCallback(
+		(role: string) => dispatch(addUserRole({ role: role })),
 		[dispatch]
 	);
 
@@ -124,6 +133,7 @@ const Login = () => {
 		toggleProgressHandler(true); // Progress bar 생성
 		localStorage.setItem('token', "Local-Test-token");
 		saveIsAuthenticated(true);
+		saveUserRole('admin'); // 사용자 역할 설정
 		createAccesstoken("Local-Test-token");
 //		createExpiresAccesstoken(String(result.tokenExpiresIn));
 		setMenuList(); // 메뉴생성
