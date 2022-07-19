@@ -28,6 +28,9 @@ const KakaoMap = ({ open, setOpen, params }: { open: boolean, setOpen: any, para
 	const { kakao }: any = window;
 	const [isOpen, setOpenHandler] = React.useState(false);
 
+	const mapContainer = React.useRef(null); // 카카오맵을 생성할 div ref 설정
+
+
 	const handleClose = () => {
 		setOpen(false);
 		setOpenHandler(false);
@@ -43,14 +46,13 @@ const KakaoMap = ({ open, setOpen, params }: { open: boolean, setOpen: any, para
 		console.log("kakao useEffect START");
 
 		if (isOpen) {
-			let container = document.querySelector('#kakaoMapArea');
 			let options = {
 				center: new kakao.maps.LatLng(params.latitude, params.longitude),
 				//				center: new kakao.maps.LatLng(33.450701, 126.570667),
 				level: 3
 			};
 
-			let map = new kakao.maps.Map(container, options);
+			let map = new kakao.maps.Map(mapContainer.current, options);
 
 			// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다 TOPLEFT
 			// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
@@ -94,7 +96,7 @@ const KakaoMap = ({ open, setOpen, params }: { open: boolean, setOpen: any, para
 					</Typography>
 				</Toolbar>
 			</AppBar>
-			<div className="kakao-map" id="kakaoMapArea" style={{ width: '100%', height: '100%' }} />
+			<div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
 		</Dialog>
 	)
 }

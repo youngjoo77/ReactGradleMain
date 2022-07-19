@@ -66,7 +66,6 @@ const ChangePassWord = () => {
 
     // 비밀번호 아이콘 클릭 이벤트 처리
     const showPasswordClickhandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(event);
         const id = event.currentTarget.id;
         if (id === 'icon_password') {
             setPasswordValue({ ...password, showPassword: !password.showPassword });
