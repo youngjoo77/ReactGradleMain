@@ -6,9 +6,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
+import { GridColumnVisibilityModel } from '@mui/x-data-grid';
 import CustomDataGrid from '@components/grid/dataGrid'
-import { GridColDef } from '@mui/x-data-grid';
-import moment from 'moment'
 
 const Notice = () => {
 	const [tabValue, setTabValue] = React.useState("1"); 
@@ -17,17 +16,16 @@ const Notice = () => {
 		setTabValue(newValue);
 	};
 
-	const columns: GridColDef[] = [
-		{ field: 'id', type: 'number', headerName: 'ID', flex: 1, hide: true },
-		{ field: 'type', type: 'string', headerName: '구분', flex: 1, sortable: false, filterable: false },
-		{ field: 'content', type: 'string', headerName: '내용', flex: 2, sortable: false, filterable: false },
-		{
-			field: 'registDate', type: 'date', headerName: '등록일자', flex: 1, sortable: false, filterable: false,
-			valueFormatter: params => moment(params?.value).format("YYYY-MM-DD")
-		},
-		{ field: 'detailContent', type: 'string', headerName: 'action', flex: 1, hide: true }
+	// 컬럼 데이터 설정
+	const columns = [
+		{ field: 'id', type: 'number', headerName: 'ID', flex: 0 },
+		{ field: 'type', type: 'string', headerName: '구분', flex: 1},
+		{ field: 'content', type: 'string', headerName: '내용', flex: 2 },
+		{field: 'registDate', type: 'date', headerName: '등록일자', flex: 1 },
+		{ field: 'detailContent', type: 'string', headerName: 'action', flex: 0 }
 	];
 
+	// row 데이터 설정
 	const rows = [
 		{ id: 1, type: '구분1', content: 'Snow', registDate: '20220714', detailContent: '상세내용입니다.' },
 		{ id: 2, type: '구분2', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
@@ -44,6 +42,8 @@ const Notice = () => {
 		{ id: 13, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' }
 	];
 
+	// hide 컬럼 설정
+	const columnVisibility : GridColumnVisibilityModel = {id : false, detailContent : false};
 	return (
 		<React.Fragment >
 			<Container sx={{ width: '100%' }}>
@@ -53,15 +53,15 @@ const Notice = () => {
 							<TabList onChange={tabChangehandler} aria-label="lab API tabs">
 								<Tab label="Item One" value="1" />
 								<Tab label="Item Two" value="2" />
-								<Tab label="Item Three" value="3" />
 							</TabList>
 						</Box>
 						<TabPanel value="1">
 							<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 								<CustomDataGrid
 									key={'notice_grid'}
-									columns={columns}
-									rows={rows}
+									columnVisibility= {columnVisibility}
+									columns = {columns}
+									rows = {rows}
 								/>
 							</Paper>
 						</TabPanel>
