@@ -43,6 +43,7 @@ const Main = () => {
 		setTargetServiceValue("target1");
 	}, []);
 
+	// 데이터를 조회 해서 설정 해야 함.
 	React.useEffect(() => {
 		const listdata = [];
 		const data1 = {

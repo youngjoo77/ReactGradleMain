@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -24,11 +23,6 @@ export interface ExhibitionDataProp {
 	}[]
 	maxMember: number
 }
-
-// 전시대 목록 생성
-const Div = styled('div')(({ theme }) => ({
-	backgroundColor: theme.palette.background.paper,
-}));
 
 const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKaKaoMapInfoHandler: any }) => {
 	const exhibitionDataList = props.exhibitionDataList;
@@ -54,12 +48,14 @@ const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKa
 
 	// list 생성시 기존에 참여 되어 있던 것을 체크 해준다. 
 	React.useEffect(() => {
+		// eslint-disable-next-line array-callback-return
 		exhibitionDataList.map((data) => {
 			console.log(data.isAccept);
 			if (data.isAccept) {
 				switchTogglehandler(data.id);
 			}
 		});
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [exhibitionDataList]);
 
 	// 지도 버튼 핸들러
