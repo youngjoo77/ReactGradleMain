@@ -66,10 +66,10 @@ const ExhibitionList = (props: { exhibitionDataList: ExhibitionDataProp[], setKa
 	const mapHandler = (title: string, location: string, latitude: number, longitude: number) => {
 
 		const mapData = {
-			titleKakaoMap: title,
-			latitudeKakaoMap: latitude,
-			longitudeKakaoMap: longitude,
-			placeKakaoMap: location
+			title: title,
+			latitude: latitude,
+			longitude: longitude,
+			location: location
 		};
 		setKaKaoMapInfoHandler(mapData);
 	}
