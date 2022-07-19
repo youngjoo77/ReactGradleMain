@@ -11,7 +11,19 @@ import { AddLocationAlt } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Switch from '@mui/material/Switch';
 
-import { ExhibitionDataProp } from "@interfaces/exhibitionDataProp"
+export interface ExhibitionDataProp {
+	id: string
+	title: string
+	location: string // 장소ID
+	latitude : number // 위도
+	longitude : number // 경도
+	isAccept: boolean
+	members: {
+		name: string
+		id: string
+	}[]
+	maxMember: number
+}
 
 // 전시대 목록 생성
 const Div = styled('div')(({ theme }) => ({

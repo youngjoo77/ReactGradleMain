@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from "react-redux";
 
 import useAxios from '@configs/axios/useAxios';
-import { LoginToken, LoginInData } from '@interfaces/loginInterface';
 
 import {
 	addAccesstoken, removeAccesstoken, addExpiresAccesstoken,
@@ -32,6 +31,16 @@ const Copyright = (props: any) => {
 	);
 }
 
+export  interface LoginToken {
+	grantType: string,
+	accessToken: string,
+	tokenExpiresIn: number
+}
+
+export  interface LoginInData {
+	email: string,
+	password: string
+}
 
 const Login = () => {
 	const dispatch = useDispatch();

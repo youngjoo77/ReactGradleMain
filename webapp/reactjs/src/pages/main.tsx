@@ -17,9 +17,7 @@ import Radio, { RadioProps } from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import ExhibitionList from '@pages/exhibition/exhibitionList'
-import { ExhibitionDataProp } from "@interfaces/exhibitionDataProp"
-
+import ExhibitionList, {ExhibitionDataProp} from '@pages/exhibition/exhibitionList'
 import KakaoMap from "@components/map/kakaoMap"
 
 interface KakaoMapInterface {

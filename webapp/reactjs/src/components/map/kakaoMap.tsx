@@ -7,8 +7,15 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import { KakaoMapProp } from "@interfaces/kakaoMapProp"
 
+export interface KakaoMapProp {
+	open : boolean
+	setOpen : any
+	title : string
+	latitude : number
+	longitude : number
+	location : string
+}
 
 const Transition = React.forwardRef(function Transition(
 	props: TransitionProps & {
