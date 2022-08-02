@@ -10,7 +10,7 @@ import { GridColumnVisibilityModel } from '@mui/x-data-grid';
 import CustomDataGrid from '@components/grid/dataGrid'
 
 const Notice = () => {
-	const [tabValue, setTabValue] = React.useState("1"); 
+	const [tabValue, setTabValue] = React.useState("1");
 
 	const tabChangehandler = (event: React.SyntheticEvent, newValue: string) => {
 		setTabValue(newValue);
@@ -19,9 +19,9 @@ const Notice = () => {
 	// 컬럼 데이터 설정
 	const columns = [
 		{ field: 'id', type: 'number', headerName: 'ID', flex: 0 },
-		{ field: 'type', type: 'string', headerName: '구분', flex: 1},
+		{ field: 'type', type: 'string', headerName: '구분', flex: 1 },
 		{ field: 'content', type: 'string', headerName: '내용', flex: 2 },
-		{field: 'registDate', type: 'date', headerName: '등록일자', flex: 2 },
+		{ field: 'registDate', type: 'date', headerName: '등록일자', flex: 2 },
 		{ field: 'detailContent', type: 'string', headerName: 'action', flex: 0 }
 	];
 
@@ -43,7 +43,7 @@ const Notice = () => {
 	];
 
 	// hide 컬럼 설정
-	const columnVisibility : GridColumnVisibilityModel = {id : false, detailContent : false};
+	const columnVisibility: GridColumnVisibilityModel = { id: false, detailContent: false };
 	return (
 		<React.Fragment >
 			<Container sx={{ width: '100%' }}>
@@ -55,17 +55,17 @@ const Notice = () => {
 								<Tab label="Item Two" value="2" />
 							</TabList>
 						</Box>
-						<TabPanel value="1" style={{padding : '1px', marginTop : '10px'}}>
+						<TabPanel value="1" style={{ padding: '1px', marginTop: '10px' }}>
 							<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 								<CustomDataGrid
 									key='notice_grid'
-									columnVisibility= {columnVisibility}
-									columns = {columns}
-									rows = {rows}
+									columnVisibility={columnVisibility}
+									columns={columns}
+									rows={rows}
 								/>
 							</Paper>
 						</TabPanel>
-						<TabPanel value="2" style={{padding : '1px', marginTop : '10px'}}>Item Two</TabPanel>
+						<TabPanel value="2" style={{ padding: '1px', marginTop: '10px' }}>Item Two</TabPanel>
 					</TabContext>
 				</Box>
 
