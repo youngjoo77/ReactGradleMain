@@ -88,29 +88,54 @@ const ChangePassWord = () => {
         console.log("저장 클릭");
         if (password && newPassword && confimPassword) {
             if (password.value === '') {
-                setAlert({ open: true, title: "비밀번호", content: "비밀번호의 값이 없습니다.", fnCallBack: alertIsCloseHandler, alertProps: { severity: 'error', color: 'error' } });
+                let alertData: AlertInterface = {
+                    open: true, title: "비밀번호", content: "비밀번호의 값이 없습니다.", fnCallBack: function () {
+                        alertData.open = false;
+                        setAlert(alertData);
+                    }, alertProps: { severity: 'error', color: 'error' }
+                };
+                setAlert(alertData);
             }
             else if (newPassword.value === '') {
-                setAlert({ open: true, title: "신규 비밀번호", content: "신규 비밀번호의 값이 없습니다.", fnCallBack: alertIsCloseHandler, alertProps: { severity: 'error', color: 'error' } });
+                let alertData: AlertInterface = {
+                    open: true, title: "신규 비밀번호", content: "신규 비밀번호의 값이 없습니다.", fnCallBack: function () {
+                        alertData.open = false;
+                        setAlert(alertData);
+                    }, alertProps: { severity: 'error', color: 'error' }
+                };
+                setAlert(alertData);
             }
             else if (confimPassword.value === '') {
-                setAlert({ open: true, title: "확인 비밀번호", content: "확인 비밀번호의 값이 없습니다.", fnCallBack: alertIsCloseHandler, alertProps: { severity: 'error', color: 'error' } });
+                let alertData: AlertInterface = {
+                    open: true, title: "확인 비밀번호", content: "확인 비밀번호의 값이 없습니다.", fnCallBack: function () {
+                        alertData.open = false;
+                        setAlert(alertData);
+                    }, alertProps: { severity: 'error', color: 'error' }
+                };
+                setAlert(alertData);
             }
 
             if (password.value === newPassword.value) {
-                setAlert({ open: true, title: "비밀번호 확인", content: "기존 비밀번호와 신규 비밀번호의 값이 같습니다.", fnCallBack: alertIsCloseHandler, alertProps: { severity: 'error', color: 'error' } });
+                let alertData: AlertInterface = {
+                    open: true, title: "비밀번호 확인", content: "기존 비밀번호와 신규 비밀번호의 값이 같습니다.", fnCallBack: function () {
+                        alertData.open = false;
+                        setAlert(alertData);
+                    }, alertProps: { severity: 'error', color: 'error' }
+                };
+                setAlert(alertData);
             }
 
             if (newPassword.value !== confimPassword.value) {
-                setAlert({ open: true, title: "비밀번호 확인", content: "신규 비밀번호와 확인 비밀번호 값이 다릅니다.", fnCallBack: alertIsCloseHandler, alertProps: { severity: 'error', color: 'error' } });
+                let alertData: AlertInterface = {
+                    open: true, title: "비밀번호 확인", content: "신규 비밀번호와 확인 비밀번호 값이 다릅니다.", fnCallBack: function () {
+                        alertData.open = false;
+                        setAlert(alertData);
+                    }, alertProps: { severity: 'error', color: 'error' }
+                };
+                setAlert(alertData);
             }
         }
     }
-
-    // alert callback 함수
-    const alertIsCloseHandler = React.useCallback(() => {
-        setAlert({ ...alert, open: false }); // 기존데이터는 그대로 이고 open 만 변경시
-    }, [alert]);
 
     return (
         <Container sx={{ width: '100%' }}>
