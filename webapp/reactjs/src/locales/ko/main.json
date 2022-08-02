@@ -1,0 +1,7 @@
+{
+    "signIn": "로그인",
+    "emailAddr": "이메일주소",
+    "pwd": "비밀번호",
+    "argTest": "변수 테스트 {0} {1}",
+    "language": "언어"
+}
