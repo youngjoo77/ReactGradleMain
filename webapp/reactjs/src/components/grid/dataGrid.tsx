@@ -136,4 +136,4 @@ const CustomDataGrid = ({ columnVisibility, columns, rows }: { columnVisibility:
 	);
 }
 
-export default React.memo(CustomDataGrid);
+export default CustomDataGrid;
