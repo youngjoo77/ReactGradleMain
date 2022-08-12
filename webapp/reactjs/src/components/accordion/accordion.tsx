@@ -1,9 +1,20 @@
 
+import React from 'react';
 import Accordion, { AccordionProps } from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import { styled } from '@mui/material/styles';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import { Typography } from '@mui/material';
+
+interface CustomAccordionViewInterface {
+	expanded: string | false
+	value: string
+	accordionChangeHandler: (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => void
+	title: string
+	subTitle?: string
+	children: React.ReactElement
+}
 
 const CustomAccordion = styled((props: AccordionProps) => (
 	<Accordion disableGutters elevation={1} TransitionProps={{ unmountOnExit: true }} {...props} />
@@ -41,4 +52,29 @@ const CustomAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
 	borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-export { CustomAccordion, CustomAccordionSummary, CustomAccordionDetails }
+const CustomAccordionView = ({
+	expanded,
+	value,
+	accordionChangeHandler,
+	title,
+	subTitle,
+	children
+}
+	: CustomAccordionViewInterface) => {
+
+	return (
+		<CustomAccordion expanded={expanded === value} onChange={accordionChangeHandler(value)}>
+			<CustomAccordionSummary aria-controls={`custom-accordion-content-${value}`} id={`custom-accordion-header-${value}`}>
+				<Typography sx={{ width: '33%', flexShrink: 0 }}>{title}</Typography>
+				{
+					subTitle ? <Typography sx={{ color: 'text.secondary' }}>{subTitle}</Typography> : null
+				}
+			</CustomAccordionSummary>
+			<CustomAccordionDetails>
+				{children}
+			</CustomAccordionDetails>
+		</CustomAccordion >
+	)
+}
+
+export { CustomAccordionView }
