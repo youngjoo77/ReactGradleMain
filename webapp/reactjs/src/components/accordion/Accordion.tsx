@@ -1,90 +1,44 @@
-import React, { useEffect, useReducer, useRef } from 'react'
 
-export interface AccordionProps {
-	key: string
-	title?: string
-	show?: boolean
-	children?: React.ReactElement | null
-}
+import Accordion, { AccordionProps } from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
+import { styled } from '@mui/material/styles';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 
-export interface AccordionListProps {
-	list: AccordionProps[]
-}
+const CustomAccordion = styled((props: AccordionProps) => (
+	<Accordion disableGutters elevation={1} TransitionProps={{ unmountOnExit: true }} {...props} />
+))(({ theme }) => ({
+	border: `1px solid ${theme.palette.divider}`,
+	'&:not(:last-child)': {
+		borderBottom: 0,
+	},
+	'&:before': {
+		display: 'none',
+	},
+}));
 
-type State = {
-	collapse: boolean
-}
+const CustomAccordionSummary = styled((props: AccordionSummaryProps) => (
+	<AccordionSummary
+		expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
+		{...props}
+	/>
+))(({ theme }) => ({
+	// backgroundColor:
+	// 	theme.palette.mode === 'dark'
+	// 		? 'rgba(255, 255, 255, .05)'
+	// 		: 'rgba(0, 0, 0, .03)',
+	flexDirection: 'row-reverse',
+	'& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+		transform: 'rotate(90deg)',
+	},
+	'& .MuiAccordionSummary-content': {
+		marginLeft: theme.spacing(1),
+	},
+}));
 
-type Action = { type: 'collapse' } | { type: 'show' }
+const CustomAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
+	padding: theme.spacing(2),
+	borderTop: '1px solid rgba(0, 0, 0, .125)',
+}));
 
-const reducer = (state: State, action: Action) => {
-	switch (action.type) {
-		case 'collapse':
-			return {
-				collapse: !state.collapse
-			}
-		case 'show':
-			return {
-				collapse: true
-			}
-	}
-}
-
-export const Accordion = ({
-	title = 'Accordion Title',
-	show = false,
-	children
-}: AccordionProps) => {
-	const accordionBodyRef = useRef<HTMLDivElement>(null)
-	const [{ collapse }, dispatch] = useReducer(reducer, {
-		collapse: show
-	})
-
-	const randomId = useRef(
-		window.crypto.getRandomValues(new Uint32Array(1))[0].toString(36)
-	)
-
-	useEffect(() => {
-		if (show) dispatch({ type: 'show' })
-	}, [show])
-
-	return (
-		<div className="accordion-item">
-			<h2 className="accordion-header" id={`heading-${randomId.current}`}>
-				<button
-					className={`accordion-button${collapse ? '' : ' collapsed'}`}
-					type="button"
-					aria-expanded={collapse}
-					aria-controls={`collapse-${randomId.current}`}
-					onClick={() => dispatch({ type: 'collapse' })}
-				>
-					{title}
-				</button>
-			</h2>
-
-			<div
-				id={`collapse-${randomId.current}`}
-				aria-labelledby={`heading-${randomId.current}`}
-				className={`accordion-collapse`}
-				style={
-					collapse
-						? {
-							height: accordionBodyRef.current?.clientHeight,
-							transition: 'height 0.2s ease',
-							overflow: 'hidden'
-						}
-						: {
-							height: 0,
-							transition: 'height 0.2s ease',
-							overflow: 'hidden'
-						}
-				}
-			>
-				<div className="accordion-body" ref={accordionBodyRef}>
-					{children ||
-						'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem illum odit similique quibusdam ea eaque pariatur laboriosam repellendus voluptas, aspernatur in id tenetur eligendi nobis quam saepe cumque enim esse.'}
-				</div>
-			</div>
-		</div>
-	)
-}
+export { CustomAccordion, CustomAccordionSummary, CustomAccordionDetails }
