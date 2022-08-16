@@ -1,6 +1,9 @@
 package com.react.test.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +15,7 @@ import com.react.test.member.dto.MemberResponseDto;
 import com.react.test.member.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -29,5 +30,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
         return ResponseEntity.ok(authService.login(requestDto));
+    }
+    
+    @GetMapping("/refreshToken")
+    public ResponseEntity<TokenDto> refreshToken(HttpServletRequest request) {
+        return ResponseEntity.ok(authService.refreshToken(request));
     }
 }
