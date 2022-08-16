@@ -1,47 +1,110 @@
 import React from "react";
-import Alert, {AlertProps} from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Dialog from "@mui/material/Dialog";
-import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import Snackbar from '@mui/material/Snackbar';
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
-export interface AlertInterface {
-    open: boolean
+/**
+ * description:
+ * - alert property
+ * 
+ */
+interface CustomAlertInterface {
+    isOpen: boolean
+    severity: 'error' | 'warning' | 'info' | 'success'
     title: string
     content: string
     fnCallBack: any
-    alertProps: AlertProps
 }
 
-export const CustomAlert = ({customAlert} : {customAlert : AlertInterface}) => {
+interface CustomSnackbarInterface {
+    isOpen: boolean
+    message: string
+}
+
+/**
+ * @description
+ * alert 을 생성 한다.
+ * 
+ * note:
+ * - severity: alert 유형 ('error' | 'warning' | 'info' | 'success')
+ */
+const CustomAlert = ({ customAlertProp }: { customAlertProp: CustomAlertInterface }) => {
     const [open, setOpen] = React.useState(false);
 
     React.useEffect(() => {
-        setOpen(customAlert.open);
-    }, [customAlert]);
+        setOpen(customAlertProp.isOpen);
+    }, [customAlertProp.isOpen]);
 
     const closeClickhandler = () => {
-        setOpen(!open);
-        if(customAlert.fnCallBack) {
-            customAlert.fnCallBack(); // 부모함수 호출
+        setOpen(false);
+        if (customAlertProp.fnCallBack) {
+            customAlertProp.fnCallBack(); // 부모함수 호출
         }
     };
 
     return (
-        <Dialog open={open} onClose={closeClickhandler}>
+        <Dialog
+            open={open}
+            onClose={closeClickhandler}
+        >
             <Alert
-                severity={customAlert.alertProps.severity}
-                color={customAlert.alertProps.color}
+                severity={customAlertProp.severity}
+                color='info'
                 role="alert"
-                icon={<AccessAlarmIcon />}
                 onClose={closeClickhandler}
                 closeText="close"
-                sx={{
-                    
-                }}
             >
-                <AlertTitle>{customAlert.title}</AlertTitle>
-                {customAlert.content}
+                <AlertTitle>{customAlertProp.title}</AlertTitle>
+                {customAlertProp.content}
             </Alert>
         </Dialog>
     )
+}
+
+const CustomSnackbar = ({ isOpen, message }: CustomSnackbarInterface) => {
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+
+    React.useEffect(() => {
+        setSnackbarOpen(isOpen);
+    }, [isOpen]);
+
+    const snackbarCloseHandler = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackbarOpen(false);
+    };
+
+    const action = (
+        <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={snackbarCloseHandler}
+        >
+            <CloseIcon fontSize="small" />
+        </IconButton>
+    );
+    return (
+        <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={snackbarCloseHandler}
+            message={message}
+            action={action}
+        />
+    )
+}
+
+export type {
+    CustomAlertInterface
+}
+
+export {
+    CustomAlert,
+    CustomSnackbar
 }

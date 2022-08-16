@@ -16,6 +16,7 @@ export const IS_AUTHENTICATED = 'auth/IS_AUTHENTICATED';
 export const ADD_USER_ROLE = 'auth/ADD_USER_ROLE';
 
 
+
 export const addAccesstoken = createStandardAction(ADD_ACCESSTOKEN)<{
 	 accessToken : string
 }>();
@@ -33,5 +34,5 @@ export const isAuthenticated = createStandardAction(IS_AUTHENTICATED)<{
 }>();
 
 export const addUserRole = createStandardAction(ADD_USER_ROLE)<{
-	role : string
+	 role : string
 }>();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from "react-redux";
-import { removeAccesstoken, removeExpiresAccesstoken, isAuthenticated } from "@modules/auth/authModule"
+import { removeAccesstoken, removeExpiresAccesstoken, isAuthenticated, addUserRole } from "@modules/auth/authModule"
 
 import { Typography, Toolbar, IconButton, AppBar } from '@mui/material';
 import { Logout } from '@mui/icons-material';
@@ -22,15 +22,23 @@ const Header = () => {
 		[dispatch]
 	);
 
+	// 사용자 역할 저장 함수
+	const saveUserRole = React.useCallback(
+		(role: string) => dispatch(addUserRole({ role: role })),
+		[dispatch]
+	);
+
 	const LogoutHandler = () => {
 		console.log("logout  버튼 클릭 !!!!");
 
-		localStorage.removeItem('token'); // 토큰삭제
-		deleteAccesstoken();
+		localStorage.removeItem('token');
+		localStorage.removeItem('refToken');
+		localStorage.removeItem('tokenExpiresIn');
 
+		deleteAccesstoken();
 		deleteExpiresAccesstoken(); // 토큰유효시간 삭제
 		saveIsAuthenticated(false); // 권한검증여부 false 설정
-
+		saveUserRole('');
 		navigate("/login"); // 로그인 페이지로 이동
 	}
 

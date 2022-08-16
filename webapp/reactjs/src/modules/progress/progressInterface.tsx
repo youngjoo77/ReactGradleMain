@@ -3,6 +3,6 @@ import * as progressModule  from "@modules/progress/progressModule";
 
 export type ProgressAction = ActionType<typeof progressModule>;
 
-export interface ProgressType {
+export interface ProgressInterace {
   progressOpen : boolean
 };

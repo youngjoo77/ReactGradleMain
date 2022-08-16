@@ -18,7 +18,7 @@ const Footer = () => {
 
 	const navigate = useNavigate();
 	const userRole = useSelector((state: RootState) => state.auth.role);
-
+	
 	const footerOnchageHandler = (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
 		setFooterIconValue(newValue);
 		if (newValue !== '/setting') {

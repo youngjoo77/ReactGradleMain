@@ -6,44 +6,108 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
-import { GridColumnVisibilityModel } from '@mui/x-data-grid';
-import CustomDataGrid from '@components/grid/dataGrid'
+import { CustomDataGrid } from '@components/grid/dataGrid'
+import { GridCellParams, GridColDef, GridColumnVisibilityModel, GridRowParams, GridValueGetterParams, MuiEvent } from '@mui/x-data-grid';
+import * as Utils from '@/utils'
+import { AppBar, Dialog, Divider, IconButton, List, ListItem, ListItemText, Slide, Toolbar, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { TransitionProps } from '@mui/material/transitions';
+
+const Transition = React.forwardRef(function Transition(
+	props: TransitionProps & {
+		children: React.ReactElement;
+	},
+	ref: React.Ref<unknown>,
+) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Notice = () => {
 	const [tabValue, setTabValue] = React.useState("1");
+	const [isOpen, setIsOpen] = React.useState(false);
+	const [typeValue, setTypeValue] = React.useState("");
+	const [contentValue, setContentValue] = React.useState("");
+	const [detailContentValue, setDetailContentValue] = React.useState("");
 
 	const tabChangehandler = (event: React.SyntheticEvent, newValue: string) => {
 		setTabValue(newValue);
 	};
 
-	// 컬럼 데이터 설정
-	const columns = [
-		{ field: 'id', type: 'number', headerName: 'ID', flex: 0 },
-		{ field: 'type', type: 'string', headerName: '구분', flex: 1 },
-		{ field: 'content', type: 'string', headerName: '내용', flex: 2 },
-		{ field: 'registDate', type: 'date', headerName: '등록일자', flex: 2 },
-		{ field: 'detailContent', type: 'string', headerName: 'action', flex: 0 }
-	];
+	const gridRowClickHandler = (params: GridRowParams<any>, event: MuiEvent<React.MouseEvent<HTMLElement, MouseEvent>>) => {
+		console.log(`grid row clicked lastName = ${params.row.lastName}`);
+		if (!event.ctrlKey) {
+			event.defaultMuiPrevented = true;
+			setTypeValue(params.row.type);
+			setContentValue(params.row.content);
+			setDetailContentValue(params.row.detailContent);
+			setIsOpen(true);
+		}
+	}
 
-	// row 데이터 설정
-	const rows = [
-		{ id: 1, type: '구분1', content: 'Snow', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 2, type: '구분2', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 3, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 4, type: '구분2', content: 'Stark', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 5, type: '구분1', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 6, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 7, type: '구분1', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 8, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 9, type: '구분1', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 10, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 11, type: '구분1', content: 'Lannister', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 12, type: '구분1', content: 'Roxie', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 13, type: '구분1', content: 'Stark', registDate: '20220714', detailContent: '상세내용입니다.' }
-	];
+	const gridCellClickHandler = (params: GridCellParams<any>, event: MuiEvent<React.MouseEvent<HTMLElement, MouseEvent>>) => {
+		console.log(`grid cell clicked( field = ${params.field}, value = ${params.value}, format value = ${params.formattedValue})`);
+	}
+
+	const closeHandler = () => {
+		setIsOpen(false);
+	};
+
+	const columnVisibilityModel: GridColumnVisibilityModel = { id: false, detailContent: false };
 
 	// hide 컬럼 설정
-	const columnVisibility: GridColumnVisibilityModel = { id: false, detailContent: false };
+	// grid 컬럼 설정
+	const columns: GridColDef[] = [
+		{ field: 'id', headerName: 'ID', width: 90 },
+		{
+			field: 'type',
+			headerName: 'type',
+			flex: 1,
+			editable: true,
+			headerAlign: 'left',
+			align: 'left'
+		},
+		{
+			field: 'content',
+			headerName: 'content',
+			flex: 1,
+			editable: true,
+			headerAlign: 'left',
+			align: 'left',
+		},
+		{
+			field: 'registDate',
+			headerName: 'REG Date',
+			description: 'This column has a value getter and is not sortable.',
+			flex: 1,
+			headerAlign: 'left',
+			align: 'center',
+			valueFormatter: (params) => {
+				return Utils.DateUtil.dateToString(params?.value, "YYYY-MM-DD")
+
+			}
+		},
+		{
+			field: 'detailContent',
+			headerName: 'detail contents',
+			flex: 1,
+			headerAlign: 'left',
+			align: 'left'
+		}
+	];
+
+	// grid row 데이터 설정
+	const rows = [
+		{ id: 1, type: 'Snow', content: 'Jon', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 2, type: 'Lannister', content: 'Cersei', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 3, type: 'Lannister', content: 'Jaime', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 4, type: 'Stark', content: 'Arya', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 5, type: 'Targaryen', content: 'Daenerys', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 6, type: 'Melisandre', content: null,  registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 7, type: 'Clifford', content: 'Ferrara', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 8, type: 'Frances', content: 'Rossini', registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 9, type: 'Roxie', content: 'Harvey', registDate: '20220714', detailContent: '상세내용입니다.' }
+	];
+
 	return (
 		<React.Fragment >
 			<Container sx={{ width: '100%' }}>
@@ -56,12 +120,13 @@ const Notice = () => {
 							</TabList>
 						</Box>
 						<TabPanel value="1" style={{ padding: '1px', marginTop: '10px' }}>
-							<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+							<Paper sx={{ width: '100%', overflow: 'hidden', height:600, minHeight:400 }}>
 								<CustomDataGrid
-									key='notice_grid'
-									columnVisibility={columnVisibility}
-									columns={columns}
 									rows={rows}
+									columns={columns}
+									columnVisibilityModel={columnVisibilityModel}
+									checkboxSelection={false}
+									rowClickHandler={gridRowClickHandler}
 								/>
 							</Paper>
 						</TabPanel>
@@ -70,6 +135,34 @@ const Notice = () => {
 				</Box>
 
 			</Container>
+			<Dialog
+				fullScreen
+				open={isOpen}
+				onClose={closeHandler}
+				TransitionComponent={Transition}
+			>
+				<AppBar sx={{ position: 'relative' }}>
+					<Toolbar>
+						<IconButton
+							edge="start"
+							color="inherit"
+							onClick={closeHandler}
+							aria-label="close"
+						>
+							<CloseIcon />
+						</IconButton>
+						<Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+							{typeValue + " "+contentValue}
+						</Typography>
+					</Toolbar>
+				</AppBar>
+				<List>
+					<ListItem>
+						<ListItemText primary={detailContentValue} />
+					</ListItem>
+					<Divider />
+				</List>
+			</Dialog>
 		</React.Fragment >
 	);
 }

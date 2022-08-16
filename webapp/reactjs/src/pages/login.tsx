@@ -1,28 +1,40 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from "react-redux";
+import { useTranslation } from 'react-i18next'
+import CustomAxios, { CustomAxionFunctionInterface } from '@/configs/axios/axios';
 
 import {
 	addAccesstoken, removeAccesstoken, addExpiresAccesstoken,
 	removeExpiresAccesstoken, isAuthenticated, addUserRole
 } from "@modules/auth/authModule"
-import { toggleProgress } from "@modules/progress/progressModule"
-import { addMenuList } from "@modules/menu/menuModule"
-import { MenuListType } from "@modules/menu/menuType"
 
 import { CustomBasicButton } from "@components/button/button"
 
-import { Container, CssBaseline, Avatar, Typography, TextField, Box } from "@mui/material"
+import { Container, CssBaseline, Avatar, Typography, TextField, Box, Link, InputLabel, MenuItem, FormControl } from "@mui/material"
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { LockOutlined } from "@mui/icons-material"
-import Link from '@mui/material/Link';
-import useAxios from '@configs/axios/useAxios';
+
+export interface LoginToken {
+	grantType: string,
+	accessToken: string,
+	refreshToken: string,
+	tokenExpiresIn: number
+}
+
+export interface LoginInData {
+	email: string,
+	password: string
+}
 
 const Copyright = (props: any) => {
+	const url = window.location.protocol + "//" + window.location.hostname;
+
 	return (
 		<Typography variant="body2" color="text.secondary" align="center" {...props}>
 			{'Copyright © '}
-			<Link color="inherit" href="http://localhost/">
-				{window.location.protocol + "//" + window.location.hostname}
+			<Link color="inherit" href={url}>
+				{url}
 			</Link>{' '}
 			{new Date().getFullYear()}
 			{'.'}
@@ -30,69 +42,54 @@ const Copyright = (props: any) => {
 	);
 }
 
-export  interface LoginToken {
-	grantType: string,
-	accessToken: string,
-	tokenExpiresIn: number
-}
-
-export  interface LoginInData {
-	email: string,
-	password: string
-}
 
 const Login = () => {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	//	const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-	//	const [hasLoginFailed, setHasLoginFailed] = useState(false);
+	const [lngValue, setlngValue] = useState(localStorage.getItem('language') || 'ko');
 
-	const createMenuList = React.useCallback(
-		(menuList: MenuListType) => dispatch(addMenuList(menuList)),
-		[dispatch]
-	);
+	// axios 컴포넌트에게 넘겨줄 ref 선언
+	const axiosRef = React.useRef<CustomAxionFunctionInterface>(null);
 
-	// progress bar 함수
-	const toggleProgressHandler = React.useCallback(
-		(progressOpen: boolean) => dispatch(toggleProgress({ progressOpen: progressOpen })),
-		[dispatch]
-	);
+	React.useEffect(() => {
+		if (localStorage.getItem('language') === null) {
+			localStorage.setItem('language', 'ko');
+		}
+	});
+	// 다국어 선언
+	const { t, i18n } = useTranslation('main');
 
-	// 토큰 생성 함수
+	// auth 관련 생성 함수
 	const createAccesstoken = React.useCallback(
 		(accessToken: string) => dispatch(addAccesstoken({ accessToken: accessToken })),
 		[dispatch]
 	);
 
-	// 토큰 삭제 함수
 	const deleteAccesstoken = React.useCallback(() => dispatch(removeAccesstoken()),
 		[dispatch]
 	);
 
-	// 토큰 유효시간 생성 함후
 	const createExpiresAccesstoken = React.useCallback(
 		(tokenExpiresTime: string) => dispatch(addExpiresAccesstoken({ tokenExpiresTime: tokenExpiresTime })),
 		[dispatch]
 	);
 
-	// 토큰 유효시간 삭제 함수
 	const deleteExpiresAccesstoken = React.useCallback(() => dispatch(removeExpiresAccesstoken()),
 		[dispatch]
 	);
 
-	// 권한 체크 저장 함수
 	const saveIsAuthenticated = React.useCallback(
 		(authenticated: boolean) => dispatch(isAuthenticated({ isAuthenticated: authenticated })),
 		[dispatch]
 	);
-	
+
 	// 사용자 역할 저장 함수
 	const saveUserRole = React.useCallback(
 		(role: string) => dispatch(addUserRole({ role: role })),
 		[dispatch]
 	);
-
+	
 	const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value)
 	}
@@ -104,77 +101,74 @@ const Login = () => {
 	const navigate = useNavigate();
 
 	const navigateHandler = () => {
-		console.log("page 이동");
 		navigate("/main"); // page 이동
 	}
 
-	//	const calculateRemainingTime = (expirationTime:number) => {
-	//  		const currentTime = new Date().getTime();
-	//  		const adjExpirationTime = new Date(expirationTime).getTime();
-	//  		const remainingDuration = adjExpirationTime - currentTime;
-	//  		return remainingDuration;
-	//	};
-
-	const setMenuList = () => {
-		// 메뉴 데이터 생성
-		const menuDateList = {
-			menuItems: [{ key: "1", title: "메뉴1", show: false },
-			{ key: "2", title: "메뉴2", show: true },
-			{ key: "3", title: "메뉴3", show: false }]
-		};
-
-		createMenuList(menuDateList);
-	}
+	const lngSelectChangeHandler = (
+		event: SelectChangeEvent
+	) => {
+		if (event.target.value) {
+			localStorage.setItem('language', event.target.value);
+			setlngValue(event.target.value);
+			i18n.changeLanguage(event.target.value);
+		}
+	};
 
 	const loginClicked = () => {
-		console.log("loginClicked");
+		console.log('loginClicked');
+		// saveIsAuthenticated(true);
+		// setEmail(email);
+		// localStorage.setItem('token', "accesstoken-default-value");
+		// localStorage.setItem('tokenExpiresIn', String(1660186864.738));
+
+		// createAccesstoken("accesstoken-default-value");
+		// // contents 페이지로 이동
+		// navigateHandler();
+
 		const loginData: LoginInData = { 'email': email, 'password': password };
-		
-		toggleProgressHandler(true); // Progress bar 생성
-		localStorage.setItem('token', "Local-Test-token");
-		saveIsAuthenticated(true);
-		saveUserRole('admin'); // 사용자 역할 설정
-		createAccesstoken("Local-Test-token");
-//		createExpiresAccesstoken(String(result.tokenExpiresIn));
-		setMenuList(); // 메뉴생성
-		
-		toggleProgressHandler(false); // Progress bar 삭제
-		
-		// main 페이지로 이동
-		navigateHandler();
-	
-//		const response = useAxios.POST('/auth/login', loginData, true);
-//		response.then((response) => {
-//			if (response !== null) {
-//				saveIsAuthenticated(true);
-//				const result: LoginToken = response.data;
-//				setEmail(email);
-//				localStorage.setItem('token', result.accessToken);
-//				console.log("login success!!!");
-//				//				setGrantType(result.grantType);
-//				//				setShowSuccessMessage(true);
-//				//				setHasLoginFailed(false);
-//				//				setCookie('accessToken', result.accessToken); // cookie 세팅 샘플
-//				// redux 에 token 생성
-//				createAccesstoken(result.accessToken);
-//				createExpiresAccesstoken(String(result.tokenExpiresIn));
-//
-//
-//				setMenuList(); // 메뉴생성
-//				// main 페이지로 이동
-//				navigateHandler();
-//			}
-//		}).catch(() => {
-//			localStorage.removeItem('token');
-//			//			setShowSuccessMessage(false);
-//			//			setHasLoginFailed(true);
-//
-//			// redux 에 token 삭제
-//			deleteAccesstoken();
-//			deleteExpiresAccesstoken();
-//			saveIsAuthenticated(false);
-//			//			removeCookie('accessToken'); // cookie 샘플
-//		})
+
+		const response = axiosRef.current?.REQUEST({
+			method: 'POST',
+			url: '/auth/login',
+			data: loginData,
+			loading: true
+		});
+
+		if (response) {
+			response.then((response) => {
+				if (response !== null) {
+					saveIsAuthenticated(true);
+					const result: LoginToken = response.data;
+					setEmail(email);
+
+					localStorage.setItem('token', result.accessToken);
+					localStorage.setItem('refToken', result.refreshToken);
+					localStorage.setItem('tokenExpiresIn', String(result.tokenExpiresIn));
+
+					console.log("login success!!!");
+					//				setGrantType(result.grantType);
+					//				setCookie('accessToken', result.accessToken); // cookie 세팅 샘플
+					// redux 에 token 생성
+					createAccesstoken(result.accessToken);
+					createExpiresAccesstoken(String(result.tokenExpiresIn));
+//					saveUserRole(result.userRole);
+					saveUserRole('user');
+
+					// main 페이지로 이동
+					navigateHandler();
+				}
+			}).catch(() => {
+				localStorage.removeItem('token');
+				localStorage.removeItem('refToken');
+				localStorage.removeItem('tokenExpiresIn');
+
+				// redux 에 token 삭제
+				deleteAccesstoken();
+				deleteExpiresAccesstoken();
+				saveIsAuthenticated(false);
+				// removeCookie('accessToken'); // cookie 샘플
+			})
+		}
 	}
 
 	return (
@@ -193,7 +187,7 @@ const Login = () => {
 					<LockOutlined />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Sign in
+					{t('signIn')}
 				</Typography>
 				<Box component="form" noValidate sx={{ mt: 1 }}>
 					<TextField
@@ -202,7 +196,7 @@ const Login = () => {
 						fullWidth
 						autoFocus
 						id="email"
-						label="Email Address"
+						label={t('emailAddr')}
 						name="email"
 						value={email}
 						autoComplete="email"
@@ -213,25 +207,44 @@ const Login = () => {
 						required
 						fullWidth
 						id="password"
-						label="password"
+						label={t('pwd')}
 						name="password"
 						type="password"
 						value={password}
 						onChange={passwordChange}
 						autoComplete="current-password"
 					/>
+
+					<FormControl sx={{ minWidth: '100%', right: 0 }} size="medium" margin='normal'>
+						<InputLabel id="theme-select-small">{t('language')}</InputLabel>
+						<Select
+							labelId="theme-select-small"
+							id="theme-select-small"
+							value={lngValue}
+							label="theme"
+							onChange={lngSelectChangeHandler}
+							defaultValue={'ko'}
+						>
+							<MenuItem value={'ko'}>한국어</MenuItem>
+							<MenuItem value={'en'}>영어</MenuItem>
+						</Select>
+					</FormControl>
+
 					<CustomBasicButton
 						fullWidth
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
 						onClick={loginClicked}
 					>
-						Login
+					
+						{t('signIn')}
 					</CustomBasicButton>
 				</Box>
 			</Box>
 			<Copyright sx={{ mt: 8, mb: 4 }} />
-
+			<CustomAxios
+				ref={axiosRef}
+			/>
 		</Container>
 	)
 }
