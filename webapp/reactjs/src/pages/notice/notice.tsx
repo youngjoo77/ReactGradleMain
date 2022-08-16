@@ -7,20 +7,9 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
 import { CustomDataGrid } from '@components/grid/dataGrid'
-import { GridCellParams, GridColDef, GridColumnVisibilityModel, GridRowParams, GridValueGetterParams, MuiEvent } from '@mui/x-data-grid';
+import { GridCellParams, GridColDef, GridColumnVisibilityModel, GridRowParams, MuiEvent } from '@mui/x-data-grid';
+import { CustomFullDialog } from '@components/modal/modal'
 import * as Utils from '@/utils'
-import { AppBar, Dialog, Divider, IconButton, List, ListItem, ListItemText, Slide, Toolbar, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { TransitionProps } from '@mui/material/transitions';
-
-const Transition = React.forwardRef(function Transition(
-	props: TransitionProps & {
-		children: React.ReactElement;
-	},
-	ref: React.Ref<unknown>,
-) {
-	return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const Notice = () => {
 	const [tabValue, setTabValue] = React.useState("1");
@@ -102,7 +91,7 @@ const Notice = () => {
 		{ id: 3, type: 'Lannister', content: 'Jaime', registDate: '20220714', detailContent: '상세내용입니다.' },
 		{ id: 4, type: 'Stark', content: 'Arya', registDate: '20220714', detailContent: '상세내용입니다.' },
 		{ id: 5, type: 'Targaryen', content: 'Daenerys', registDate: '20220714', detailContent: '상세내용입니다.' },
-		{ id: 6, type: 'Melisandre', content: null,  registDate: '20220714', detailContent: '상세내용입니다.' },
+		{ id: 6, type: 'Melisandre', content: null, registDate: '20220714', detailContent: '상세내용입니다.' },
 		{ id: 7, type: 'Clifford', content: 'Ferrara', registDate: '20220714', detailContent: '상세내용입니다.' },
 		{ id: 8, type: 'Frances', content: 'Rossini', registDate: '20220714', detailContent: '상세내용입니다.' },
 		{ id: 9, type: 'Roxie', content: 'Harvey', registDate: '20220714', detailContent: '상세내용입니다.' }
@@ -120,7 +109,7 @@ const Notice = () => {
 							</TabList>
 						</Box>
 						<TabPanel value="1" style={{ padding: '1px', marginTop: '10px' }}>
-							<Paper sx={{ width: '100%', overflow: 'hidden', height:600, minHeight:400 }}>
+							<Paper sx={{ width: '100%', overflow: 'hidden', height: 600, minHeight: 400 }}>
 								<CustomDataGrid
 									rows={rows}
 									columns={columns}
@@ -135,34 +124,13 @@ const Notice = () => {
 				</Box>
 
 			</Container>
-			<Dialog
-				fullScreen
-				open={isOpen}
-				onClose={closeHandler}
-				TransitionComponent={Transition}
-			>
-				<AppBar sx={{ position: 'relative' }}>
-					<Toolbar>
-						<IconButton
-							edge="start"
-							color="inherit"
-							onClick={closeHandler}
-							aria-label="close"
-						>
-							<CloseIcon />
-						</IconButton>
-						<Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-							{typeValue + " "+contentValue}
-						</Typography>
-					</Toolbar>
-				</AppBar>
-				<List>
-					<ListItem>
-						<ListItemText primary={detailContentValue} />
-					</ListItem>
-					<Divider />
-				</List>
-			</Dialog>
+			< CustomFullDialog
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+				typeValue={typeValue}
+				contentValue={contentValue}
+				detailContentValue={detailContentValue}
+			/>
 		</React.Fragment >
 	);
 }

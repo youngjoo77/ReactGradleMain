@@ -1,10 +1,10 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, IconButton } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Slide, AppBar, Toolbar, Typography, List, ListItem, Divider, ListItemText } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Paper, { PaperProps } from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next'
 import { CustomBasicButton } from '@components/button/button'
-import * as Utils from '@/utils';
+import { TransitionProps } from '@mui/material/transitions';
+import * as Utils from '@/utils'
 
 interface CustomModalInterface {
 	isOpen: boolean
@@ -18,10 +18,6 @@ interface PopupInterface {
 	open: boolean
 	fnOkCallback: any
 	fnCancelCallback: any
-}
-
-interface DynamicDialogInterface extends PopupInterface {
-	path: string
 }
 
 /**
@@ -111,5 +107,66 @@ const CustomDialog = ({
 	);
 };
 
+const Transition = React.forwardRef(function Transition(
+	props: TransitionProps & {
+		children: React.ReactElement;
+	},
+	ref: React.Ref<unknown>,
+) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
+
+interface CustomFullDialogInterface {
+	isOpen: boolean
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+	typeValue: string
+	contentValue: string
+	detailContentValue: string
+}
+
+const CustomFullDialog = ({
+	isOpen,
+	setIsOpen,
+	typeValue,
+	contentValue,
+	detailContentValue
+}: CustomFullDialogInterface) => {
+
+	const onCloseHandler = () => {
+		setIsOpen(false);
+	}
+
+	return (
+		<Dialog
+			fullScreen
+			open={isOpen}
+			onClose={onCloseHandler}
+			TransitionComponent={Transition}
+		>
+			<AppBar sx={{ position: 'relative' }}>
+				<Toolbar>
+					<IconButton
+						edge="start"
+						color="inherit"
+						onClick={onCloseHandler}
+						aria-label="close"
+					>
+						<CloseIcon />
+					</IconButton>
+					<Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+						{typeValue + " " + (Utils.StringUtil.isNull(contentValue) ? '' : contentValue)}
+					</Typography>
+				</Toolbar>
+			</AppBar>
+			<List>
+				<ListItem>
+					<ListItemText primary={detailContentValue} />
+				</ListItem>
+				<Divider />
+			</List>
+		</Dialog>
+	)
+}
+
 export type { PopupInterface }
-export { CustomDialog }
+export { CustomDialog, CustomFullDialog }
