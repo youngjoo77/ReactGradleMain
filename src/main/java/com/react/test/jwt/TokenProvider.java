@@ -61,8 +61,9 @@ public class TokenProvider {
 				.collect(Collectors.joining(","));
 
 		Date now = new Date();
-		
-		log.debug("tokenExpiresIn : {}", tokenExpiresIn);
+		if(log.isDebugEnabled()) {
+			log.debug("tokenExpiresIn : {}", tokenExpiresIn);
+		}
 		
 		return Jwts.builder().setSubject(authentication.getName())
 				.setIssuedAt(now) // 발생시간
