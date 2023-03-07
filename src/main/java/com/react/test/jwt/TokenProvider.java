@@ -67,8 +67,10 @@ public class TokenProvider {
 		
 		return Jwts.builder().setSubject(authentication.getName())
 				.setIssuedAt(now) // 발생시간
+				.setExpiration(tokenExpiresIn) // 만료시간
 				.signWith(key, SignatureAlgorithm.HS512) // 암호화
-				.claim(AUTHORITIES_KEY, authorities).setExpiration(tokenExpiresIn).compact();
+				.claim(AUTHORITIES_KEY, authorities)
+				.compact();
 	}
 
 	public Authentication getAuthentication(String accessToken) {

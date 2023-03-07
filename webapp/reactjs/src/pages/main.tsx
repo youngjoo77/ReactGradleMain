@@ -165,12 +165,12 @@ const Main = () => {
 					/>
 				</Box>
 
-				<KakaoMap
+				{/* <KakaoMap
 					key={'kakaomap_main'}
 					open={openKakaoMap}
 					setOpen={setOpenKakaoMap}
 					params={kakaoMapParams}
-				/>
+				/> */}
 			</Container>
 		</React.Fragment >
 	)

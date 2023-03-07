@@ -116,59 +116,59 @@ const Login = () => {
 
 	const loginClicked = () => {
 		console.log('loginClicked');
-		// saveIsAuthenticated(true);
-		// setEmail(email);
-		// localStorage.setItem('token', "accesstoken-default-value");
-		// localStorage.setItem('tokenExpiresIn', String(1660186864.738));
+		saveIsAuthenticated(true);
+		setEmail(email);
+		localStorage.setItem('token', "accesstoken-default-value");
+		localStorage.setItem('tokenExpiresIn', String(1660186864.738));
 
-		// createAccesstoken("accesstoken-default-value");
+		createAccesstoken("accesstoken-default-value");
 		// // contents 페이지로 이동
-		// navigateHandler();
+		navigateHandler();
 
 		const loginData: LoginInData = { 'email': email, 'password': password };
 
-		const response = axiosRef.current?.REQUEST({
-			method: 'POST',
-			url: '/auth/login',
-			data: loginData,
-			loading: true
-		});
+// 		const response = axiosRef.current?.REQUEST({
+// 			method: 'POST',
+// 			url: '/auth/login',
+// 			data: loginData,
+// 			loading: true
+// 		});
 
-		if (response) {
-			response.then((response) => {
-				if (response !== null) {
-					saveIsAuthenticated(true);
-					const result: LoginToken = response.data;
-					setEmail(email);
+// 		if (response) {
+// 			response.then((response) => {
+// 				if (response !== null) {
+// 					saveIsAuthenticated(true);
+// 					const result: LoginToken = response.data;
+// 					setEmail(email);
 
-					localStorage.setItem('token', result.accessToken);
-					localStorage.setItem('refToken', result.refreshToken);
-					localStorage.setItem('tokenExpiresIn', String(result.tokenExpiresIn));
+// 					localStorage.setItem('token', result.accessToken);
+// 					localStorage.setItem('refToken', result.refreshToken);
+// 					localStorage.setItem('tokenExpiresIn', String(result.tokenExpiresIn));
 
-					console.log("login success!!!");
-					//				setGrantType(result.grantType);
-					//				setCookie('accessToken', result.accessToken); // cookie 세팅 샘플
-					// redux 에 token 생성
-					createAccesstoken(result.accessToken);
-					createExpiresAccesstoken(String(result.tokenExpiresIn));
-//					saveUserRole(result.userRole);
-					saveUserRole('user');
+// 					console.log("login success!!!");
+// 					//				setGrantType(result.grantType);
+// 					//				setCookie('accessToken', result.accessToken); // cookie 세팅 샘플
+// 					// redux 에 token 생성
+// 					createAccesstoken(result.accessToken);
+// 					createExpiresAccesstoken(String(result.tokenExpiresIn));
+// //					saveUserRole(result.userRole);
+// 					saveUserRole('user');
 
-					// main 페이지로 이동
-					navigateHandler();
-				}
-			}).catch(() => {
-				localStorage.removeItem('token');
-				localStorage.removeItem('refToken');
-				localStorage.removeItem('tokenExpiresIn');
+// 					// main 페이지로 이동
+// 					navigateHandler();
+// 				}
+// 			}).catch(() => {
+// 				localStorage.removeItem('token');
+// 				localStorage.removeItem('refToken');
+// 				localStorage.removeItem('tokenExpiresIn');
 
-				// redux 에 token 삭제
-				deleteAccesstoken();
-				deleteExpiresAccesstoken();
-				saveIsAuthenticated(false);
-				// removeCookie('accessToken'); // cookie 샘플
-			})
-		}
+// 				// redux 에 token 삭제
+// 				deleteAccesstoken();
+// 				deleteExpiresAccesstoken();
+// 				saveIsAuthenticated(false);
+// 				// removeCookie('accessToken'); // cookie 샘플
+// 			})
+// 		}
 	}
 
 	return (
